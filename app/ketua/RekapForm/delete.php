@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
         header("Location: rekap_formulir.php"); // Redirect kembali ke halaman utama
         exit();
     } else {
-        echo "Error deleting record: " . $conn->error;
+        echo "Error deleting record: " . $conn->error; 
     }
 
     $conn->close();

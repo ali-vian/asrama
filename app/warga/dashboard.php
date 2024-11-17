@@ -1,6 +1,6 @@
 <?php
 // Menyertakan file koneksi
-include 'koneksi.php';
+include '../base.php';
 
 // Mendapatkan data warga dengan NIM 20230001
 $nim = '20230001';
