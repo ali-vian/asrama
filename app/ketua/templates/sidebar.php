@@ -20,6 +20,11 @@
             Pendaftaran Warga
         </a>
 
+        <a class="side-button <?php if ($pages == "penghuni.php") echo "active"; ?>" href="#penghuni.php">
+            <img class="side-img" src="../../../assets/img/user.png" alt="Penghuni">
+            Warga Asrama
+        </a>
+
         <a class="side-button <?php if ($pages == "rekap_harian.php" || $pages == "rekap_ekstra.php" || $pages == "rekap_besar.php") echo "active"; ?>" href="rekap_harian.php">
             <img class="side-img" src="../../../assets/img/bar-ketua/rekap.png" alt="rekap">
             Rekap Absensi
