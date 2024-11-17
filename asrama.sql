@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Nov 2024 pada 15.21
--- Versi server: 10.4.24-MariaDB
--- Versi PHP: 8.1.6
+-- Waktu pembuatan: 16 Nov 2024 pada 13.39
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,7 @@ CREATE TABLE `absensi` (
   `waktu_absen` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `jenis_absen` varchar(12) DEFAULT NULL,
   `keterangan` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -52,7 +52,7 @@ CREATE TABLE `extrakulikuler` (
   `gambar_pamflet` varchar(255) DEFAULT NULL,
   `jadwal` varchar(25) DEFAULT NULL,
   `kuota` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `extrakulikuler`
@@ -80,8 +80,20 @@ CREATE TABLE `formulir_kegiatan` (
   `pertanyaan3` varchar(255) DEFAULT NULL,
   `pertanyaan4` varchar(255) DEFAULT NULL,
   `pertanyaan5` varchar(255) DEFAULT NULL,
-  `saran_masukan` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `saran_masukan` longtext DEFAULT NULL,
+  `status` enum('aktif','tidak_aktif') DEFAULT 'aktif'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `formulir_kegiatan`
+--
+
+INSERT INTO `formulir_kegiatan` (`id_formulir_kegiatan`, `id_kegiatan`, `nim`, `pertanyaan1`, `pertanyaan2`, `pertanyaan3`, `pertanyaan4`, `pertanyaan5`, `saran_masukan`, `status`) VALUES
+(1, 101, '12345678901', 'Bagus', 'Cukup Memadai', 'Kurang Memadai', 'Sangat Baik', 'Tidak Memadai', 'Perlu perbaikan di area parkir', 'tidak_aktif'),
+(2, 102, '12345678902', 'Sangat Baik', 'Memadai', 'Baik', 'Cukup Memadai', 'Sangat Baik', 'Harus ada lebih banyak tempat duduk', 'tidak_aktif'),
+(3, 103, '12345678903', 'Baik', 'Sangat Baik', 'Cukup Memadai', 'Memadai', 'Baik', 'Perlu peningkatan pada fasilitas ruang kelas', 'tidak_aktif'),
+(4, 104, '12345678904', 'Cukup Memadai', 'Kurang Memadai', 'Sangat Baik', 'Baik', 'Cukup Memadai', 'Perlu lebih banyak pilihan makanan', 'tidak_aktif'),
+(5, 105, '12345678905', 'Memadai', 'Cukup Memadai', 'Baik', 'Sangat Baik', 'Sangat Baik', 'Acara perlu ditingkatkan lagi kualitasnya', 'tidak_aktif');
 
 -- --------------------------------------------------------
 
@@ -95,7 +107,18 @@ CREATE TABLE `formulir_kepuasan` (
   `pesan` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `kategori` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `formulir_kepuasan`
+--
+
+INSERT INTO `formulir_kepuasan` (`id_formulir`, `nim`, `pesan`, `created_at`, `kategori`) VALUES
+(1, '12345678901', 'Acara sangat baik, namun fasilitas perlu ditingkatkan.', '2024-11-15 03:00:00', 'positif'),
+(2, '12345678902', 'Penyelenggaraan cukup baik, tapi tempat parkir kurang memadai.', '2024-11-15 04:00:00', 'negatif'),
+(3, '12345678903', 'Event ini memuaskan, namun bisa lebih terorganisir.', '2024-11-15 05:00:00', 'positif'),
+(4, '12345678904', 'Kegiatan menyenangkan, namun kurang variasi makanan.', '2024-11-15 06:00:00', 'negatif'),
+(5, '12345678905', 'Penyelenggaraan baik, namun beberapa aspek perlu ditingkatkan.', '2024-11-15 07:00:00', 'positif');
 
 -- --------------------------------------------------------
 
@@ -110,7 +133,7 @@ CREATE TABLE `hasil_spk` (
   `minggu` varchar(2) NOT NULL,
   `bulan` varchar(2) NOT NULL,
   `tahun` varchar(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `hasil_spk`
@@ -141,7 +164,7 @@ CREATE TABLE `hasil_tpa` (
   `Absensi_Harian` float(10,2) DEFAULT NULL,
   `Absensi_Kegiatan` float(10,2) DEFAULT NULL,
   `Absensi_Extra` float(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `hasil_tpa`
@@ -167,7 +190,18 @@ CREATE TABLE `kegiatan` (
   `deskripsi` longtext DEFAULT NULL,
   `foto_pamflet` varchar(255) DEFAULT NULL,
   `tempat` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `kegiatan`
+--
+
+INSERT INTO `kegiatan` (`nama_kegiatan`, `id_kegiatan`, `tanggal_kegiatan`, `created_at`, `deskripsi`, `foto_pamflet`, `tempat`) VALUES
+('Seminar Teknologi Terbaru', 101, '2024-11-20 00:00:00', '2024-11-10 01:00:00', 'Seminar mengenai perkembangan teknologi terbaru di bidang IT', 'seminar_tech.jpg', 'Gedung A, Universitas XYZ'),
+('Workshop Desain Grafis', 102, '2024-11-25 00:00:00', '2024-11-12 02:30:00', 'Workshop praktis untuk mempelajari desain grafis menggunakan software terkini', 'workshop_design.jpg', 'Ruangan 101, Kampus ABC'),
+('Pameran Fotografi', 103, '2024-12-01 00:00:00', '2024-11-14 03:15:00', 'Pameran yang menampilkan karya fotografi terbaik dari mahasiswa', 'pameran_foto.jpg', 'Galeri Seni Kampus DEF'),
+('Lomba Debat Mahasiswa', 104, '2024-12-05 00:00:00', '2024-11-16 07:00:00', 'Lomba debat antar mahasiswa dengan tema politik dan sosial', 'lomba_debat.jpg', 'Auditorium Kampus GHI'),
+('Pelatihan Public Speaking', 105, '2024-12-10 00:00:00', '2024-11-18 09:30:00', 'Pelatihan teknik public speaking untuk meningkatkan kemampuan komunikasi publik', 'public_speaking.jpg', 'Ruang Serbaguna Kampus JKL');
 
 -- --------------------------------------------------------
 
@@ -180,7 +214,7 @@ CREATE TABLE `kriteria` (
   `kriteria` varchar(32) DEFAULT NULL,
   `bobot` float(5,2) DEFAULT NULL,
   `type` varchar(12) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `kriteria`
@@ -217,7 +251,7 @@ CREATE TABLE `pendaftaran` (
   `nama_ayah` varchar(255) DEFAULT NULL,
   `nama_ibu` varchar(255) DEFAULT NULL,
   `no_hp_ortu` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -238,7 +272,7 @@ CREATE TABLE `pengurus` (
   `foto_pengurus` varchar(255) DEFAULT NULL,
   `prodi_pengurus` varchar(255) DEFAULT NULL,
   `jenis_kelamin_pengurus` varchar(12) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `pengurus`
@@ -262,7 +296,7 @@ CREATE TABLE `sub_kriteria` (
   `id_kriteria` int(11) NOT NULL,
   `subkriteria` varchar(255) NOT NULL,
   `nilai` float(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `sub_kriteria`
@@ -313,7 +347,7 @@ CREATE TABLE `warga` (
   `email` varchar(255) DEFAULT NULL,
   `gedung` varchar(12) DEFAULT NULL,
   `prodi` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `warga`
