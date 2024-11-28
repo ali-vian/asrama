@@ -1,22 +1,25 @@
 <?php
 include '././db.php';
 
+$nim = $_POST['nim'] ?? '';
+
 header('Content-Type: application/json');
 
-if (isset($_POST['nim'])) {
-    $nim = $_POST['nim'];
+if ($nim) {
+    try {
+        // Perbaikan: Query ke tabel 'warga' bukan 'pendaftaran'
+        $stmt = $pdo->prepare("SELECT * FROM warga WHERE nim = ?");
+        $stmt->execute([$nim]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Cek apakah NIM terdaftar di tabel pendaftaran
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM pendaftaran WHERE nim = :nim");
-    $stmt->bindParam(':nim', $nim);
-    $stmt->execute();
-    $count = $stmt->fetchColumn();
-
-    if ($count > 0) {
-        echo json_encode(['exists' => true]);
-    } else {
-        echo json_encode(['exists' => false]);
+        if ($user) {
+            echo json_encode(['exists' => true]);
+        } else {
+            echo json_encode(['exists' => false]);
+        }
+    } catch (PDOException $e) {
+        echo json_encode(['exists' => false, 'error' => $e->getMessage()]);
     }
 } else {
-    echo json_encode(['exists' => false]);
+    echo json_encode(['exists' => false, 'error' => 'NIM tidak disediakan']);
 }

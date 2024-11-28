@@ -1,6 +1,7 @@
 <?php
 include '././db.php';
 
+// Ambil kegiatan dari database
 $query = "SELECT id_kegiatan, nama_kegiatan FROM kegiatan";
 $stmt = $pdo->query($query);
 $kegiatan = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,43 +41,66 @@ $kegiatan = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
     <script>
+        let questionCount = 1; // Jumlah pertanyaan awal
+        const maxQuestions = 5; // Maksimal 5 pertanyaan
+
+        function addQuestion() {
+            if (questionCount < maxQuestions) {
+                questionCount++;
+                const container = document.getElementById("questions-container");
+                const newQuestion = document.createElement("div");
+                newQuestion.classList.add("mb-3");
+                newQuestion.innerHTML = `
+                <label for="pertanyaan${questionCount}" class="block text-gray-700 font-semibold mb-1">Pertanyaan ${questionCount}</label>
+                <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan${questionCount}" name="pertanyaan${questionCount}" placeholder="Masukkan Pertanyaan ${questionCount}" />
+            `;
+                container.appendChild(newQuestion);
+
+                // Jika sudah mencapai batas maksimal, nonaktifkan tombol
+                if (questionCount === maxQuestions) {
+                    document.getElementById("addQuestionButton").disabled = true;
+                    alert("Pertanyaan maksimal sudah tercapai!");
+                }
+            }
+        }
+
         function checkNIM(event) {
             event.preventDefault();
             const nim = document.getElementById("nim").value;
 
-            fetch("check_nim.php", {
+            fetch("././check_nim.php", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
+                        "Content-Type": "application/x-www-form-urlencoded",
                     },
-                    body: "nim=" + nim
+                    body: "nim=" + encodeURIComponent(nim),
                 })
-                .then(response => response.json())
-                .then(data => {
+                .then((response) => response.json())
+                .then((data) => {
                     if (data.exists) {
                         submitForm();
                     } else {
                         alert("NIM tidak terdaftar");
                     }
                 })
-                .catch(error => console.error("Error:", error));
+                .catch((error) => console.error("Error:", error));
         }
 
         function submitForm() {
             const formData = new FormData(document.getElementById("kegiatanForm"));
 
-            fetch("submit.php", {
+            fetch("././submit.php", {
                     method: "POST",
-                    body: formData
+                    body: formData,
                 })
-                .then(response => response.json())
-                .then(data => {
+                .then((response) => response.json())
+                .then((data) => {
                     alert(data.message);
                     if (data.success) {
                         document.getElementById("kegiatanForm").reset();
                     }
                 })
-                .catch(error => console.error("Error:", error));
+                .catch((error) => console.error("Error:", error));
         }
     </script>
 </head>
@@ -109,26 +133,16 @@ $kegiatan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="pertanyaan1" class="block text-gray-700 font-semibold mb-1">Pertanyaan 1</label>
-                    <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan1" name="pertanyaan1" placeholder="Masukkan Pertanyaan 1" />
+
+                <!-- Dynamic Questions -->
+                <div id="questions-container">
+                    <div class="mb-3">
+                        <label for="pertanyaan1" class="block text-gray-700 font-semibold mb-1">Pertanyaan 1</label>
+                        <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan1" name="pertanyaan1" placeholder="Masukkan Pertanyaan 1" />
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="pertanyaan2" class="block text-gray-700 font-semibold mb-1">Pertanyaan 2</label>
-                    <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan2" name="pertanyaan2" placeholder="Masukkan Pertanyaan 2" />
-                </div>
-                <div class="mb-3">
-                    <label for="pertanyaan3" class="block text-gray-700 font-semibold mb-1">Pertanyaan 3</label>
-                    <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan3" name="pertanyaan3" placeholder="Masukkan Pertanyaan 3" />
-                </div>
-                <div class="mb-3">
-                    <label for="pertanyaan4" class="block text-gray-700 font-semibold mb-1">Pertanyaan 4</label>
-                    <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan4" name="pertanyaan4" placeholder="Masukkan Pertanyaan 4" />
-                </div>
-                <div class="mb-3">
-                    <label for="pertanyaan5" class="block text-gray-700 font-semibold mb-1">Pertanyaan 5</label>
-                    <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan5" name="pertanyaan5" placeholder="Masukkan Pertanyaan 5" />
-                </div>
+                <button type="button" onclick="addQuestion()" class="mt-3 text-blue-500">+ Tambah Pertanyaan</button>
+
                 <div class="mb-3">
                     <label for="saran_masukan" class="block text-gray-700 font-semibold mb-1">Saran dan Masukan</label>
                     <textarea class="form-control w-full border border-gray-300 p-2 rounded-md" id="saran_masukan" name="saran_masukan" placeholder="Masukkan Saran dan Masukan" rows="4"></textarea>
