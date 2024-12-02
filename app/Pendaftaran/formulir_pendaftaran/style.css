@@ -1,0 +1,217 @@
+/* Impor font Montserrat dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif; /* Menggunakan Montserrat */
+}
+
+/* Mengatur tampilan header tetap */
+.header {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    position: fixed; /* Membuat header tetap */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Memastikan header di atas konten lain */
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.containerr {
+    background-color: #f4f3f3;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 20px;
+}
+
+.logo {
+    height: 60px; /* Sesuaikan tinggi logo */
+}
+
+.profile-icon img {
+    height: 40px; /* Sesuaikan tinggi ikon profil */
+    border-radius: 50%; /* Membuat ikon profil berbentuk bulat */
+}
+
+/* Mengatur margin untuk konten di bawah header */
+.content {
+    margin-top: 80px; /* Tambahkan margin untuk menghindari konten terhalang header */
+}
+
+.box {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+form {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+/* Mengatur tampilan heading */
+h1 {
+    font-size: 28px;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 20px;
+    padding-top: 150px;
+}
+
+/* Mengatur tampilan teks pendahuluan */
+p {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+/* Mengatur tampilan label form */
+label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #181919;
+    margin-bottom: 330px;
+}
+
+/* Mengatur tampilan input , select , option dan select */
+input , select , option {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 0px;
+    font-size: 14px;
+}
+
+/* Mengatur tampilan input , select , option file */
+input , select , option[type="file"] {
+    padding: 3px;
+}
+
+/* Mengatur tampilan tombol submit */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 40px;
+    margin-bottom: 80px;
+    background-color: #023da1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Mengatur tampilan pesan sukses atau error */
+.alert {
+    padding: 15px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
+
+    .container, .containerr {
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .logo {
+        height: 50px;
+    }
+
+    .profile-icon img {
+        height: 30px;
+    }
+
+    .box {
+        width: 100%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 24px;
+        padding-top: 100px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    input , select , option, button[type="submit"] {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        height: 40px;
+    }
+
+    h1 {
+        font-size: 20px;
+        padding-top: 80px;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    .box {
+        padding: 10px;
+    }
+
+    input , select , option, button[type="submit"] {
+        font-size: 13px;
+    }
+}
