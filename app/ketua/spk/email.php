@@ -2,13 +2,15 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php';
+
+
+require '../../../vendor/autoload.php';
 
 // Konfigurasi database
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "testing";
+$dbname = "asrama";
 
 // Membuat koneksi
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -18,18 +20,20 @@ if ($conn->connect_error) {
 }
 
 // Mengambil daftar email dari database
-$sql = "SELECT email, status,nama FROM announcements";
+$sql = "SELECT email,status,nama,nim,id_calon_kr FROM warga JOIN hasil_spk ON nim=id_calon_kr";
 $result = $conn->query($sql);
+
 
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $email = $row['email'];
         $status = $row['status'];
         $nama = $row['nama'];
+        $nim = $row['nim'];
 
         // Mengatur isi email (HTML)
-        $subject = $status === 'accepted' ? 'Selamat! Kamu dinyatakan Lolos Seleksi Warga Asrama' : 'Pengumumman Seleksi Warga Asrama';
-        $messageBody = $status === 'accepted' ?
+        $subject = $status === 'Lulus' ? 'Selamat! Kamu dinyatakan Lolos Seleksi Warga Asrama' : 'Pengumumman Seleksi Warga Asrama';
+        $messageBody = $status === 'Lulus' ?
             ' <p>
             Dengan senang hati kami sampaikan bahwa pada kesempatan kali ini, Anda
             dinyatakan <strong>Lolos</strong> sebagai Warga Asrama Universitas
@@ -118,7 +122,7 @@ if ($result->num_rows > 0) {
                 />
             </div>
             <div class="email-body">
-                <p>Dear '.$nama.',</p>
+                <NIM>Dear, '.$nama.'<br>NIM. '.$nim.'</p>
                 <p>
                 Kami telah melakukan proses evaluasi yang sangat ketat terhadap
                 seluruh warga, dan setelah mempertimbangkan berbagai aspek, kami telah
@@ -147,7 +151,7 @@ if ($result->num_rows > 0) {
             $mail->Host = 'smtp.gmail.com'; 
             $mail->SMTPAuth = true;
             $mail->Username = 'alivian7373@gmail.com'; 
-            $mail->Password = 'iwrw kpxc ozcq krhi'; 
+            $mail->Password = 'utjw oxpd ccap iaun'; 
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
 
@@ -161,10 +165,14 @@ if ($result->num_rows > 0) {
             $mail->Body    = $message;
 
             $mail->send();
-            echo "Email berhasil dikirim ke $email\n";
+
+            echo "Email berhasil dikirim ke $email <br>";
         } catch (Exception $e) {
-            echo "Gagal mengirim email ke $email. Error: {$mail->ErrorInfo}\n";
+            
+            echo "Gagal mengirim email ke $email. Error: {$mail->ErrorInfo} <br>";
+
         }
+
     }
 } else {
     echo "Tidak ada data email dalam database.\n";
@@ -172,3 +180,5 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
+
+<a href="lap_penilaian.php">Kembali</a>

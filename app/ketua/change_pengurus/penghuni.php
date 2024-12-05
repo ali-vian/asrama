@@ -1,8 +1,9 @@
-<?php include '../templates/header.php';?>
 <?php 
+$pageTitle  = "penghuni";
+include '../templates/header.php';
+// include '../templates/headersidebar.php';
 include('koneksi.php');
 
-$pageTitle  = "penghuni.php";
 
 // Tentukan jumlah data per halaman
 $limit = 5;
@@ -38,7 +39,7 @@ if (isset($_POST['nim'])) {
         <h2>Penghuni Asrama Mahasiswa Universitas Trunojoyo Madura</h2>
         <hr>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-danger mb-3">Delete All</button>
+            <!-- <button class="btn btn-danger mb-3">Delete All</button> -->
         </div>
     </div>
     <div class="table-container">

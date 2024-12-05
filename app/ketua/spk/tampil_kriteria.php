@@ -1,5 +1,7 @@
-<?php include 'header.php';?>
-<?php include 'menu.php';?>
+<?php 
+// include '../templates/headersidebar.php';
+include 'header.php';
+include 'menu.php';?>
     <div class="content-wrapper">
         <div class="container">
             <div class="row">

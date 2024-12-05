@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
     $sql = "DELETE FROM formulir_kepuasan WHERE id_formulir = $id";
 
     if ($conn->query($sql) === TRUE) {
-        header("Location: rekap_formulir.php"); // Redirect kembali ke halaman utama
+        header("Location: aspirasi.php"); // Redirect kembali ke halaman utama
         exit();
     } else {
         echo "Error deleting record: " . $conn->error; 

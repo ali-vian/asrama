@@ -32,7 +32,11 @@
                                 <td><?= $no;?></td>
                                 <td><?= $data['nama']?></td>
                                 <?php foreach ($db->select('kriteria','kriteria')->get() as $k): ?>
-                                <td><?= $db->getnamesubkriteria($data[$k['kriteria']])?> (Nilai = <?= $db->getnilaisubkriteria($data[$k['kriteria']])?>)</td>
+                                    <?php if($k['kriteria'] !== 'Absensi_Harian' and $k['kriteria'] !== 'Absensi_Kegiatan' and $k['kriteria'] != 'Absensi_Extra'): ?>
+                                        <td><?= $db->getnamesubkriteria($data[$k['kriteria']])?> (Nilai = <?= $db->getnilaisubkriteria($data[$k['kriteria']])?>)</td>
+                                    <?php else: ?>
+                                        <td><?= $data[$k['kriteria']]?></td>
+                                    <?php endif; ?>
                                 <?php endforeach ?>
                                 <td>
                                     <a class="btn btn-warning" href="edit_tpa.php?id=<?php echo $data[0]?>">Edit</a>

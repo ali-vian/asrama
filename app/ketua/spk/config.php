@@ -103,21 +103,22 @@
             }    
         }
 
+		function rumus1($data,$kemampuan){  
+			foreach($this->select('type','kriteria')->where("kriteria='$kemampuan'")->get() as $crt){                         
+				if($crt[0]=='Benefit'){
+					
+					$nilai_max = $this->select("max($kemampuan) as max",'hasil_tpa')->get()[0]['max'];
+					return $rumus = $data / $nilai_max;
+				} else {
+					$nilai_min = $this->select("min($kemampuan) as min",'hasil_tpa')->get()[0]['min'];
+					return $rumus = $nilai_min / $data;
+				} 
+			}
+        }
+
         //proses hasil 
         function bobot($kemampuan){
         	foreach ($this->select('bobot','kriteria')->where("kriteria='$kemampuan'")->get() as $bb) {
-        		return $bb[0];
-            }	
-		}
-		
-		function totaladmin(){
-        	foreach ($this->select('count(*)','admin')->get() as $bb) {
-        		return $bb[0];
-            }	
-		}
-
-		function totalkaryawan(){
-        	foreach ($this->select('count(*)','karyawan')->get() as $bb) {
         		return $bb[0];
             }	
 		}
@@ -148,30 +149,9 @@
             }
 		}
 
-		function weekOfMonth($qDate) {
-			$dt = strtotime($qDate);
-			$day  = date('j',$dt);
-			$month = date('m',$dt);
-			$year = date('Y',$dt);
-			$totalDays = date('t',$dt);
-			$weekCnt = 1;
-			$retWeek = 0;
-			for($i=1;$i<=$totalDays;$i++) {
-				$curDay = date("N", mktime(0,0,0,$month,$i,$year));
-				if($curDay==7) {
-					if($i==$day) {
-						$retWeek = $weekCnt+1;
-					}
-					$weekCnt++;
-				} else {
-					if($i==$day) {
-						$retWeek = $weekCnt;
-					}
-				}
-			}
-			return $retWeek;
-		}
+	
 		
 		
 	}
+
 	$db = new database();

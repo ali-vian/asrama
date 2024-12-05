@@ -284,7 +284,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h4>Dashboard</h4>
+            <img width="90%" class="logo" src="../../../assets/img/logo.png" alt="logo">
         </div>
         <a href="aspirasi.php" class="nav-item">
             <i class="fas fa-comments"></i>

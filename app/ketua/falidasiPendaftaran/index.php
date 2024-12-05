@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch data for visualization
-$sqlGenderCount = "SELECT jenis_kelamin, COUNT(*) as count FROM warga GROUP BY jenis_kelamin";
+$sqlGenderCount = "SELECT jenis_kelamin, COUNT(*) as count FROM warga JOIN pendaftaran ON warga.nim=pendaftaran.nim GROUP BY jenis_kelamin";
 $resultGenderCount = $conn->query($sqlGenderCount);
 
 $femaleCount = 0;
@@ -36,22 +36,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['nim
   $nim = $conn->real_escape_string($_POST['nim']);
   $action = $_POST['action'];
 
-  if ($action === 'accept' && isset($_POST['kamar'], $_POST['gedung'])) {
+  if ($action === 'accept' && isset($_POST['kamar'], $_POST['gedung'],$_POST['pengurus'])) {
       $kamar = $_POST['kamar'];
       $gedung = $_POST['gedung'];
+      $pengurus = $_POST['pengurus'];
 
-      // Prepare and execute accept query
-      $sqlAccept = $conn->prepare("UPDATE pendaftaran SET status = 'accepted' WHERE nim = ?");
-      $sqlAccept->bind_param("s", $nim);
+      
       
       if ($sqlAccept->execute()) {
           // Insert into warga table
-          $sqlInsertWarga = $conn->prepare("INSERT INTO warga (nama, nim, prodi, ttl, jenis_kelamin, no_hp, foto_warga, email, kamar, gedung, id) 
-                                            SELECT nama_lengkap, nim, prodi_pendaftar, ttl, jenis_kelamin, no_hp_pendaftar, foto_pendaftar, email_pendaftar, ?, ?, id 
+          $sqlInsertWarga = $conn->prepare("INSERT INTO warga (nama,nim,no_hp, password,kamar,email,gedung,prodi,foto_warga,nim_pengurus) 
+                                            SELECT nama_lengkap, nim,no_hp_pendaftar,password,?, email_pendaftar, ?, prodi_pendaftar,foto_pendaftar,?
                                             FROM pendaftaran WHERE nim = ?");
-          $sqlInsertWarga->bind_param("sss", $kamar, $gedung, $nim);
+          $sqlInsertWarga->bind_param("ssss", $kamar, $gedung,$pengurus, $nim);
           
           if ($sqlInsertWarga->execute()) {
+              // Prepare and execute accept query
+              $sqlAccept = $conn->prepare("UPDATE pendaftaran SET status = 'accepted' WHERE nim = ?");
+              $sqlAccept->bind_param("s", $nim);
               echo "<script>alert('Data pendaftar berhasil diterima.'); window.location.href = 'index.php';</script>";
           } else {
               echo "<script>alert('Gagal memasukkan data ke tabel warga.'); window.location.href = 'index.php';</script>";
@@ -75,6 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['nim
 // Fetch status count for registration status
 $sqlStatusCount = "SELECT status, COUNT(*) as count FROM pendaftaran GROUP BY status";
 $resultStatusCount = $conn->query($sqlStatusCount);
+
+$pengurus = "SELECT nama_pengurus,nim_pengurus FROM pengurus";
+$resultPengurus = $conn->query($pengurus);
 
 $pendingCount = 0;
 $acceptedCount = 0;
@@ -234,6 +239,14 @@ $result = $conn->query($sql);
             <div class="form-group">
               <label for="gedung">Gedung:</label>
               <input type="text" class="form-control" id="gedung" name="gedung" required>
+            </div>
+            <div class="form-group">
+              <label for="pengurus">Musahhil/Pengurus Pendamping:</label>
+              <select name="pengurus" class="form-control" id="pengurus">
+                <?php while ($row = $resultPengurus->fetch_assoc()) : ?>
+                  <option value="<?php echo $row['nim_pengurus']; ?>"><?php echo $row['nama_pengurus']; ?></option>
+                <?php endwhile; ?>
+              </select>
             </div>
           </div>
           <div class="modal-footer">

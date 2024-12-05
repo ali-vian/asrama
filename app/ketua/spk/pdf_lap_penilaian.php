@@ -1,216 +1,207 @@
-
-
 <?php
-    include 'config.php';
-    extract($_POST);
-    session_start();
-    // error_reporting(0);
-    if(empty($_SESSION['id'])){
-        header('location:login.php');
+// require __DIR__ . '/../../../vendor/autoload.php';
+
+// include 'config.php';
+// extract($_POST);
+
+// class MYPDF extends TCPDF {
+
+//     public $isLastPage = true;
+
+//     // Page header
+//     public function Header() {
+//         if ($this->page == 1) {
+//             // Logo
+//             $image_file = K_PATH_IMAGES . 'tcpdf_logo.jpg';
+//             $this->Image($image_file, 15, 10, 20, 20, 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+
+//             // Text Header
+//             $html = '
+//             <div style="text-align: center;">
+//                 <strong><font size="14">ASRAMA MAHASISWA</font></strong><br/>
+//                 <strong><font size="16">UNIVERSITAS TRUNOJOYO MADURA</font></strong><br/>
+//                 <span style="font-size: 10px;">
+//                     Jl. Raya Telang, Kamal, Perumahan Telang Indah, Telang, Kec. Kamal, Kabupaten Bangkalan, Jawa Timur 69162<br/>
+//                     Telepon: (031) 3011146 | Email: asrama@trunojoyo.ac.id
+//                 </span>
+//             </div>
+//             <hr style="border-top: 2px solid black;">
+//             ';
+//             $this->writeHTMLCell(0, 0, 15, 10, $html, 0, 0, false, true, 'C', true);
+//         }
+//     }
+
+//     // Page footer
+//     public function Footer() {
+//         if ($this->isLastPage) {
+//             $tgl = date("d F Y");
+//             $html = '
+//             <div style="text-align: right; font-size: 10px;">
+//                 Bangkalan, ' . $tgl . '<br/><br/><br/><br/>
+//                 <strong>Ketua Umum</strong>
+//             </div>
+//             ';
+//             $this->writeHTMLCell(0, 0, '', -40, $html, 0, 0, false, true, 'R', true);
+//         }
+//         // Position at 15 mm from bottom
+//         $this->SetY(-15);
+//         // Set font
+//         $this->SetFont('helvetica', 'I', 8);
+//         // Page number
+//         $this->Cell(0, 10, 'Halaman ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+//     }
+// }
+
+// $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+// // Set default monospaced font
+// $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// // Set margins (4333 margins are assumed as 43mm left and right, 33mm top and bottom)
+// $pdf->SetMargins(43, 33, 43);
+// $pdf->SetHeaderMargin(10);
+// $pdf->SetFooterMargin(20);
+
+// // Set auto page breaks
+// $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// // Set image scale factor
+// $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+// // Add a page
+// $pdf->AddPage();
+
+// // Data table
+// $htmlTable = '
+// <table border="1">
+//     <thead>
+//         <tr style="background-color: #f2f2f2; text-align: center;">
+//             <th width="10%">No.</th>
+//             <th width="25%">NIM</th>
+//             <th width="35%">Nama</th>
+//             <th width="20%">Hasil Penilaian</th>
+//             <th width="10%">Status</th>
+//         </tr>
+//     </thead>
+//     <tbody>';
+// $no = 1;
+
+// foreach ($db->select("nama, nim, id_calon_kr, hasil_spk, status", 'warga, hasil_spk')->where("nim=id_calon_kr")->order_by("hasil_spk", 'desc')->get() as $data) {
+//     $htmlTable .= '
+//         <tr>
+//             <td align="center">' . $no . '</td>
+//             <td align="center">' . $data['nim'] . '</td>
+//             <td>' . $data['nama'] . '</td>
+//             <td align="center">' . $data['hasil_spk'] . '</td>
+//             <td align="center">' . $data['status'] . '</td>
+//         </tr>';
+//     $no++;
+// }
+
+// $htmlTable .= '
+//     </tbody>
+// </table>';
+// $pdf->writeHTML($htmlTable, true, false, true, false, '');
+
+// ob_end_clean();
+
+// // Output the PDF
+// $pdf->Output('laporan_penilaian_warga.pdf', 'I');
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+require __DIR__ . '/../../../vendor/autoload.php';
+
+include 'config.php';
+
+extract($_POST);
+
+class MYPDF extends TCPDF {
+    // Page header
+    public function Header() {
+        $this->SetFont('times', 'N', 12);
+        $image_file = K_PATH_IMAGES . 'asrama.jpg'; // Ganti dengan path logo Anda
+        $html = '
+        <table cellspacing="0" cellpadding="1">
+            <tr>
+                <td width="15%"><img src="' . $image_file . '" width="80"/></td>
+                <td width="85%" align="center">
+                    KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI<br/>
+                    UNIVERSITAS TRUNOJOYO MADURA<br/>
+                    <strong>ASRAMA MAHASISWA</strong><br/>
+                    Jl. Raya Telang, PO Box 2 Kamal, Bangkalan - Madura Telp.(031) 3011146<br/>
+                    Laman: https://asrama.trunojoyo.ac.id/<br/>
+                </td>
+            </tr>
+        </table>
+        <hr>';
+        $this->writeHTML($html, true, false, false, false, '');
     }
-    // ob_start(); 
-
-  
-    function tampil_bulan ($x) {
-        $bulan = array (1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',
-                 5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',
-                 9=>'September',10=>'Oktober',11=>'November',12=>'Desember');
-        return $bulan[$x];
-    }
-
-    require_once('tcpdf/tcpdf.php');
-
-    class MYPDF extends TCPDF {
-
-        //Page header
-        public function Header() {
-            // Logo
-            if ($this->page == 1) {
-            $image_file = K_PATH_IMAGES.'tcpdf_logo.jpg';
-            $this->Image($image_file, 17, 4, 25, 25, 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-            $html = '<strong><font size="18">Asrama Mahasiswa Universitas Trunojoyo Madura</font></strong><br/><br/>
-            Jl. Raya Telang, Kamal, Perumahan Telang Inda, Telang, Kec. Bangkalan, Kabupaten Bangkalan, Jawa Timur 69162
-            <br/>
-            ';
-            $this->writeHTMLCell(
-                $w=0,
-                $h=0,
-                $x=45,
-                $y=7,
-                $html,
-                $border=0,
-                $ln=0,
-                $fill=false,
-                $reseth=true,
-                $align='L'
-            );
-
-                $html = '
-                <hr>
-                <br>
-                <table>
-                <tr>
-                <td align="center" style="font-size: 15px;">Laporan Data Penilaian</td>
-                </tr>
-                </table>
-                <table>
-                <tr>
-                <td></td>
-                </tr>
-                </table>
-            ';
-            $this->writeHTMLCell(
-                $w=0,
-                $h=0,
-                $x=15,
-                $y=33,
-                $html,
-                $border=0,
-                $ln=0,
-                $fill=false,
-                $reseth=true,
-                $align=''
-            );
-        }
-        }
     
-        public function lastPage($resetmargins=false) {
-            $this->setPage($this->getNumPages(), $resetmargins);
-            $this->isLastPage = true;
-        }
-
-        // Page footer
-        public function Footer() {
-
-             if($this->isLastPage) { 
-                $tgl = date("d F Y");
-                // $this->SetY(-55);
-                $html = '<font size="10">Bangkalan, '.$tgl.' <br/><br/> <br/><br/>
-                '.$_SESSION['nama'].'<font>
-                <br/>';
-                $this->writeHTMLCell(
-                    $w=0,
-                    $h=0,
-                    $x=0,
-                    $y=-40,
-                    $html,
-                    $border=0,
-                    $ln=0,
-                    $fill=false,
-                    $reseth=true,
-                    $align='R'
-                );   
-             }
-            // Position at 15 mm from bottom
-            $this->SetY(-15);
-
-            // Set font
-            $this->SetFont('helvetica', 'I', 8);
-            // Page number
-            $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-        }
-    }
-
-$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-// data header
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
- 
-
-// set default monospaced font
-$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-// set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-// set auto page breaks
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-// set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-// set some language-dependent strings (optional)
-if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-	require_once(dirname(__FILE__).'/lang/eng.php');
-	$pdf->setLanguageArray($l);
 }
 
-// ---------------------------------------------------------
+// Buat objek PDF
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-$pdf->SetFont('times','',10);
-// add a page
-$pdf->AddPage('L');
+// Set margin dan auto-break
+$pdf->SetMargins(20, 50, 20);
+$pdf->setAuthor('Asrama Mahasiswa UTM');
+$pdf->SetTitle('Pengumuman Warga Asrama Mahasiswa UTM');
+$pdf->setFont('times', '', 12); 
+$pdf->SetHeaderMargin(15);
+$pdf->SetFooterMargin(15);
+$pdf->SetAutoPageBreak(TRUE, 25);
 
-$htmlTable =
-'
-<table border="1" cellpadding="4" >
-<thead>
-    <tr>
-        <td>Hasil </td>';
-        $no = 1; 
-        foreach ($db->select('kriteria','kriteria')->get() as $th):
-            $htmlTable .= '<td>'.$th['kriteria'].' (K';
-            $htmlTable .= $no;
-        $htmlTable .= ')</td>';
-        $no++; 
-        endforeach ;
-        $htmlTable .= '<td rowspan="2">Hasil</td>
-        <td rowspan="2">Ranking</td>
-    </tr>
-    <tr>
-    <td>Bobot </td>';
-    foreach ($db->select('bobot','kriteria')->get() as $th):
-        $htmlTable .='<td>';
-        $htmlTable .= number_format($th['bobot'],2);
-    $htmlTable .='</td>';
-    endforeach;
-    $htmlTable .='</tr>
+// Tambah halaman
+$pdf->AddPage();
+
+// Konten surat
+$html = '
+<h3 align="center">PENGUMUMAN</h3>
+<p align="center">Nomor: B/6617/UN46/KM.01.00/2024</p>
+<p align="center">
+    TENTANG KELOLOSAN PENDAFTARAN WARGA LAMA ASRAMA UNIVERSITAS TRUNOJOYO MADURA TAHUN 2024
+</p>
+<table border="1">
+    <thead>
+        <tr style="background-color: #f2f2f2; text-align: center;">
+            <th align="center"  width="6%">No.</th>
+            <th align="center" width="23.5%">NIM</th>
+            <th align="center" width="23.5%">Nama</th>
+            <th align="center" width="23.5%">Hasil Penilaian</th>
+            <th align="center" width="23.5%">Status</th>
+        </tr>
     </thead>
     <tbody>';
-        
-    $no = 1;
-  
-    foreach ($db->select('distinct(warga.nama),hasil_tpa.*,hasil_spk.*','warga,hasil_tpa,hasil_spk')->where('warga.nim=hasil_tpa.id_calon_kr and warga.nim=hasil_spk.id_calon_kr and hasil_spk.minggu='.$minggu.' and hasil_spk.bulan='.$bulan.' and hasil_spk.tahun='.$tahun.'')->order_by('hasil_spk.hasil_spk','desc')->get() as $data):
-     
-        
-        $htmlTable .='<tr>';
-        $htmlTable .='<td>';
-        $htmlTable .=$data['nama'];
-        $htmlTable .='</td>';
-        foreach ($db->select('kriteria','kriteria')->get() as $td):
-            $htmlTable .='<td>';
-            $htmlTable .=number_format($db->rumus($db->getnilaisubkriteria($data[$td['kriteria']]),$td['kriteria']),2);
-        $htmlTable .='</td>';
-        endforeach;
-        $htmlTable .='<td>  ';  
-            $hasil = [];
-            foreach($db->select('kriteria','kriteria')->get() as $dt){
-                array_push($hasil,$db->rumus($db->getnilaisubkriteria($data[$dt['kriteria']]),$dt['kriteria'])*$db->bobot($dt['kriteria']));
-            }
-            $htmlTable .= $r = number_format(array_sum($hasil),2);     
-            $htmlTable .='</td>
-        <td>';
-        $htmlTable .=$no;
-        $htmlTable .='</td>
-    </tr>';
+$no = 1;
 
+foreach ($db->select("nama, nim, id_calon_kr, hasil_spk, status", 'warga, hasil_spk')->where("nim=id_calon_kr")->order_by("hasil_spk", 'desc')->get() as $data) {
+    $html .= '
+        <tr>
+            <td align="center" width="6%">' . $no . '</td width="10%"d>
+            <td align="center" width="23.5%" >' . $data['nim'] . '</td>
+            <td align="center" width="23.5%" >' . $data['nama'] . '</td>
+            <td align="center" width="23.5%" >' . $data['hasil_spk'] . '</td>
+            <td align="center" width="23.5%" >' . $data['status'] . '</td>
+        </tr>';
     $no++;
-    endforeach;  
-   
-    $htmlTable .='</tbody>
-    </table>';
+}
 
-$pdf->writeHTML($htmlTable, true, false, true, false, '');
-// $pdf->writeHTML($htmlTable, true, 0, true, 0);
-// ---------------------------------------------------------
-ob_end_clean();
-//Close and output PDF document
-$pdf->Output('lap_Penilaian_warga.pdf', 'I');
+$html .= '
+    </tbody>
+</table>';
 
-//============================================================+
-// END OF FILE
-//============================================================+
+$tgl = date("d F Y");
+$html .= '
+<p align="right">
+    Bangkalan, ' . $tgl . '<br/><br/><br/><br/><br/>
+    Ketua Umum
+</p>
+';
+
+// Tulis konten ke PDF
+$pdf->writeHTML($html, true, false, true, false, '');
+
+// Output PDF
+$pdf->Output('surat_pengumuman.pdf', 'I');
 
 ?>

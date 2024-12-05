@@ -26,7 +26,11 @@
                                 <tr>
                                     <td><?= $data['nama']?></td>
                                     <?php foreach ($db->select('kriteria','kriteria')->get() as $td): ?>
+                                    <?php if($td['kriteria'] != 'Absensi_Harian' and $td['kriteria'] != 'Absensi_Kegiatan' and $td['kriteria'] != 'Absensi_Extra'): ?>
                                     <td><?= $db->getnilaisubkriteria($data[$td['kriteria']])?></td>
+                                    <?php else: ?>
+                                    <td><?= number_format($data[$td['kriteria']],2);?></td>
+                                    <?php endif; ?>
                                     <?php endforeach ?>
                                 </tr>
                             <?php
@@ -43,7 +47,7 @@
             </div>
             <br>
             <div id="proses_spk" style="display: none;">
-                <div class="row">
+                <div class="row" >
                 <h3>Normalisasi</h3>
                 <div class="table-responsive">
                     <table id="example2" class="table table-striped table-bordered table-hover">
@@ -67,7 +71,11 @@
                                 <tr>
                                     <td><?= $data['nama']?></td>
                                     <?php foreach ($db->select('kriteria','kriteria')->get() as $td): ?>
+                                    <?php if($td['kriteria'] != 'Absensi_Harian' and $td['kriteria'] != 'Absensi_Kegiatan' and $td['kriteria'] != 'Absensi_Extra'): ?>
                                     <td><?= number_format($db->rumus($db->getnilaisubkriteria($data[$td['kriteria']]),$td['kriteria']),2);?></td>
+                                    <?php else: ?>
+                                    <td><?= number_format($db->rumus1($data[$td['kriteria']],$td['kriteria']),2)?></td>
+                                    <?php endif; ?>
                                     <?php endforeach ?>
                                 </tr>
                             <?php
@@ -96,20 +104,20 @@
                                     <td>
                                     <?php 
                                         $hasil = [];
-                                        $bulan = date('m'); 
-                                        $tahun = date('Y'); 
-                                        $tanggal = date('Y-m-d');
-
-                                        $minggu = $db->weekOfMonth($tanggal);
 
                                         foreach($db->select('kriteria','kriteria')->get() as $dt){
-                                            array_push($hasil,$db->rumus($db->getnilaisubkriteria($data[$dt['kriteria']]),$dt['kriteria'])*$db->bobot($dt['kriteria']));
+                                           
+                                            if($td['kriteria'] != 'Absensi_Harian' and $td['kriteria'] != 'Absensi_Kegiatan' and $td['kriteria'] != 'Absensi_Extra'){
+                                                array_push($hasil,$db->rumus($db->getnilaisubkriteria($data[$dt['kriteria']]),$dt['kriteria'])*$db->bobot($dt['kriteria']));
+                                            }else{
+                                                array_push($hasil,$db->rumus1($data[$dt['kriteria']],$dt['kriteria'])*$db->bobot($dt['kriteria']));
+                                            }
                                         }
                                         echo $h = number_format(array_sum($hasil),2);
-                                        if($db->select('id_calon_kr','hasil_spk')->where("id_calon_kr='$data[id_calon_kr]' and minggu='$minggu' and bulan='$bulan' and tahun='$tahun'")->count() == 0){
-                                            $db->insert('hasil_spk',"'','$data[id_calon_kr]','$h','$minggu','$bulan','$tahun'")->count();
+                                        if($db->select('id_calon_kr','hasil_spk')->where("id_calon_kr='$data[id_calon_kr]'")->count() == 0){
+                                            $db->insert('hasil_spk',"'','$data[id_calon_kr]','$h',NULL")->count();
                                         } else {
-                                            $db->update('hasil_spk',"hasil_spk='$h',minggu='$minggu',bulan='$bulan',tahun='$tahun'")->where("id_calon_kr='$data[id_calon_kr]' and minggu='$minggu' and bulan='$bulan' and tahun='$tahun'")->count();
+                                            $db->update('hasil_spk',"hasil_spk='$h'")->where("id_calon_kr='$data[id_calon_kr]'")->count();
                                         }
                                         
                                         ?>
@@ -145,23 +153,26 @@
                         <tbody>
                             <?php
                                 $no = 1;
-                                $bulan = date('m'); 
-                                $tahun = date('Y'); 
-                                $tanggal = date('Y-m-d');
-
-                                $minggu = $db->weekOfMonth($tanggal);
-                                foreach ($db->select('distinct(warga.nama),hasil_tpa.*,hasil_spk.*','warga,hasil_tpa,hasil_spk')->where('warga.nim=hasil_tpa.id_calon_kr and warga.nim=hasil_spk.id_calon_kr and hasil_spk.minggu='.$minggu.' and hasil_spk.bulan='.$bulan.' and hasil_spk.tahun='.$tahun.'')->order_by('hasil_spk.hasil_spk','desc')->get() as $data):
+                                foreach ($db->select('distinct(warga.nama),hasil_tpa.*,hasil_spk.*','warga,hasil_tpa,hasil_spk')->where('warga.nim=hasil_tpa.id_calon_kr and warga.nim=hasil_spk.id_calon_kr')->order_by('hasil_spk.hasil_spk','desc')->get() as $data):
                             ?>
                                 <tr>
                                     <td><?= $data['nama']?></td>
                                     <?php foreach ($db->select('kriteria','kriteria')->get() as $td): ?>
+                                    <?php if($td['kriteria'] != 'Absensi_Harian' and $td['kriteria'] != 'Absensi_Kegiatan' and $td['kriteria'] != 'Absensi_Extra'): ?>
                                     <td><?= number_format($db->rumus($db->getnilaisubkriteria($data[$td['kriteria']]),$td['kriteria']),2);?></td>
+                                    <?php else: ?>
+                                    <td><?= number_format($db->rumus1($data[$td['kriteria']],$td['kriteria']),2)?></td>
+                                    <?php endif; ?>
                                     <?php endforeach ?>
                                     <td>
                                     <?php 
                                         $hasil = [];
                                         foreach($db->select('kriteria','kriteria')->get() as $dt){
-                                            array_push($hasil,$db->rumus($db->getnilaisubkriteria($data[$dt['kriteria']]),$dt['kriteria'])*$db->bobot($dt['kriteria']));
+                                            if($td['kriteria'] != 'Absensi_Harian' and $td['kriteria'] != 'Absensi_Kegiatan' and $td['kriteria'] != 'Absensi_Extra'){
+                                                array_push($hasil,$db->rumus($db->getnilaisubkriteria($data[$dt['kriteria']]),$dt['kriteria'])*$db->bobot($dt['kriteria']));
+                                            }else{
+                                                array_push($hasil,$db->rumus1($data[$dt['kriteria']],$dt['kriteria'])*$db->bobot($dt['kriteria']));
+                                            }
                                         }
                                         echo $r = number_format(array_sum($hasil),2);
                                     ?>
@@ -196,6 +207,6 @@
         // });
     });
     function tpl(){
-        $("#proses_spk").show();    
+       $("#proses_spk").show();    
     }
 </script>

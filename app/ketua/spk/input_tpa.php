@@ -1,5 +1,7 @@
 <?php include 'header.php';?>
+
 <?php include 'menu.php';?>
+
 <div class="content-wrapper">
     <div class="container">
         <div class="row">
@@ -27,19 +29,21 @@
                                   <?php endforeach ?>
                                   </select>
                           </div>
-                          
                           <?php foreach ($db->select('id_kriteria,kriteria','kriteria')->get() as $r): ?>
-                          <div class="form-group col-md-3">
-                              <label><?= $r['kriteria']?></label>
+                            <div class="form-group col-md-3">
+                                <?php if($r['kriteria'] !== 'Absensi_Harian' and $r['kriteria'] !== 'Absensi_Kegiatan' and $r['kriteria'] != 'Absensi_Extra'): ?>
+                                    <label><?= $r['kriteria']?></label>
                               <!-- <input type="number" name="place[]" class="form-control"> -->
                               <select required class="form-control" name="place[]">
                                 <?php  foreach ($db->select('*','sub_kriteria')->where('id_kriteria = '.$r['id_kriteria'].'')->get() as $val): ?> 
-                                <option value="<?= $val['id_subkriteria']?>"><?= $val['subkriteria'] ?> (Nilai = <?= $val['nilai'] ?>)</option>
+                                <option value="<?= $val['id_subkriteria']?>"> <?= $val['subkriteria'] ?> (Nilai = <?= $val['nilai'] ?>)</option>
                                 <?php endforeach ?>
                                 </select>
                           </div>
-                          <?php endforeach ?>
+                          <?php endif ?>
                           
+                          <?php endforeach ?>
+                                </div>
                           <div class="form-group col-md-12">
                               <button class="btn btn-primary">Simpan</button>
                           </div>
@@ -51,7 +55,6 @@
         </div>
     </div>
 </div>
-<?php include 'footer.php';?>
 <script type="text/javascript">
     $(function(){
         $("#tpa").addClass('menu-top-active');

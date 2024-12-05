@@ -16,14 +16,15 @@
                                   <?= $_GET['error_msg']; ?>
                               </div>
                           <?php endif ?>
-                          <?php foreach ($db->select('hasil_tpa.*,karyawan.id_calon_kr,karyawan.nama','hasil_tpa,karyawan')->where('hasil_tpa.id_calon_kr=karyawan.id_calon_kr and hasil_tpa.id_calon_kr='.$_GET['id'])->get() as $data): ?>
+                          <?php foreach ($db->select('hasil_tpa.*,warga.nim,warga.nama','hasil_tpa,warga')->where('hasil_tpa.id_calon_kr=warga.nim and hasil_tpa.id_calon_kr='.$_GET['id'])->get() as $data): ?>
                           	  <input type="hidden" name="id" value="<?= $data['id_calon_kr']?>">
                                 <div class="form-group col-md-12">
                                   <label for="nama">Nama</label>
                                   <input type="text" class="form-control" id="nama" name="nama" value="<?= $data['nama']?>" readonly>
                               </div>
                               <?php foreach ($db->select('id_kriteria,kriteria','kriteria')->get() as $r): ?>
-	                          <div class="form-group col-md-2">
+                            <?php if($r['kriteria'] !== 'Absensi_Harian' and $r['kriteria'] !== 'Absensi_Kegiatan' and $r['kriteria'] != 'Absensi_Extra'): ?>
+	                          <div class="form-group col-md-6">
 	                              <label><?= $r['kriteria']?></label>
                                 <select required class="form-control" name="kriteria[]">
                                 <?php  foreach ($db->select('*','sub_kriteria')->where('id_kriteria = '.$r['id_kriteria'].'')->get() as $val): ?> 
@@ -33,6 +34,7 @@
                                 <?php endforeach ?>
                                 </select>
 	                          </div>
+                              <?php endif; ?>
 	                          <?php endforeach ?>
                           <?php endforeach ?>
                           

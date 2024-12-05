@@ -1,6 +1,9 @@
 <?php
 // Menyertakan file koneksi
-include '../base.php';
+include 'koneksi.php';
+
+// Menyertakan File HeaderSidebar.php
+include 'headersidebar.php';
 
 // Mendapatkan data warga dengan NIM 20230001
 $nim = '20230001';
@@ -172,7 +175,7 @@ $result_notifikasi = $conn->query($sql_notifikasi);
             min-width: 150px;
         }
         .profile-dropdown a {
-            padding: 10px 15px;
+            padding: 10px 10px;
             display: block;
             color: #333;
             text-decoration: none;
@@ -180,7 +183,7 @@ $result_notifikasi = $conn->query($sql_notifikasi);
         .profile-dropdown a:hover {
             background-color: #f0f0f0;
         }
-        .profile-menu:hover .profile-dropdown {
+        .profile-menu.show .profile-dropdown {
             display: block;
         }
         .welcome-banner {
@@ -268,7 +271,7 @@ $result_notifikasi = $conn->query($sql_notifikasi);
         }
         .notification-icon {
             font-size: 1.5rem;
-            margin-right: 15px;
+            margin-left: 590px;
             cursor: pointer;
             color: #6366f1;
             position: relative;
@@ -281,9 +284,8 @@ $result_notifikasi = $conn->query($sql_notifikasi);
             background-color: white;
             box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            z-index: 10;
-            min-width: 250px;
-            padding: 10px;
+            z-index: 1000;
+            width: 250px;
         }
         .notification-dropdown .notification-item {
             padding: 10px;
@@ -302,15 +304,6 @@ $result_notifikasi = $conn->query($sql_notifikasi);
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-2 sidebar" id="sidebar">
-            <div class="nav flex-column">
-                <a class="nav-link active" href="#"><i class="fas fa-tachometer-alt"></i>  Dashboard</a>
-                <a class="nav-link" href="#"><i class="fas fa-calendar-check"></i>  Absen</a>
-                <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i>  Kegiatan</a>
-                <a class="nav-link" href="#"><i class="fas fa-running"></i>  Ekstrakulikuler</a>
-            </div>
-        </nav>
 
         <!-- Main Content -->
         <main class="col-md-10 ml-sm-auto px-4 main-content" onclick="closeSidebar(event)">
@@ -321,24 +314,27 @@ $result_notifikasi = $conn->query($sql_notifikasi);
                 </div>
                 <!-- Title for Desktop -->
                 <h3 class="text-dark dashboard-title d-none d-md-block">Dashboard</h3>
-                <!-- Profile Section -->
-                <div class="profile-menu">
-                    <i class="fas fa-bell notification-icon" onclick="toggleNotifications()"></i>
-                    <div class="notification-dropdown" id="notificationDropdown">
-                        <?php
-                        if ($result_notifikasi->num_rows > 0) {
-                            while ($notif = $result_notifikasi->fetch_assoc()) {
-                                echo "<div class='notification-item' onclick='markAsRead(" . $notif['id_kegiatan'] . ")'>
-                                        <p><strong>" . $notif['nama_kegiatan'] . "</strong></p>
-                                        <small>" . $notif['tanggal_kegiatan'] . "</small>
-                                      </div>";
-                            }
-                        } else {
-                            echo "<p>Tidak ada notifikasi baru.</p>";
+
+                <!-- Notification Icon -->
+                <i class="fas fa-bell notification-icon" onclick="toggleNotifications()"></i>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <?php
+                    if ($result_notifikasi->num_rows > 0) {
+                        while ($notif = $result_notifikasi->fetch_assoc()) {
+                            echo "<div class='notification-item' onclick='markAsRead(" . $notif['id_kegiatan'] . ")'>
+                                    <p><strong>" . $notif['nama_kegiatan'] . "</strong></p>
+                                    <small>" . $notif['tanggal_kegiatan'] . "</small>
+                                  </div>";
                         }
-                        ?>
-                    </div>
-                    <img src="Artboard.png" alt="Profile Image">
+                    } else {
+                        echo "<p>Tidak ada notifikasi baru.</p>";
+                    }
+                    ?>
+                </div>
+
+                <!-- Profile Section -->
+                <div class="profile-menu" onclick="toggleProfileDropdown(event)">
+                    <img src="../warga/images/Artboard.png" alt="Profile Image">
                     <span><?php echo $nama_warga; ?></span>
                     <i class="fas fa-chevron-down"></i>
                     <div class="profile-dropdown">
@@ -355,7 +351,7 @@ $result_notifikasi = $conn->query($sql_notifikasi);
                     <h2>Selamat Datang, <?php echo $nama_warga; ?>!</h2>
                     <p>Selalu semangat dan sukses dalam kegiatan belajar dan aktivitas kampus. Bersama, kita ciptakan lingkungan yang inspiratif dan mendukung!</p>
                 </div>
-                <img src="Artboard.png" alt="Artboard Image">
+                <img src="../warga/images/Artboard.png" alt="Profile Image">
             </div>
 
             <!-- Attendance Section -->
@@ -419,16 +415,29 @@ $result_notifikasi = $conn->query($sql_notifikasi);
     }
 
     function markAsRead(idKegiatan) {
-        // Kirimkan AJAX request untuk menandai notifikasi sebagai sudah dibaca
         $.ajax({
             url: 'mark_read.php',
             type: 'POST',
             data: { id_kegiatan: idKegiatan },
             success: function(response) {
-                location.reload(); // Muat ulang halaman untuk memperbarui notifikasi
+                location.reload();
             }
         });
     }
+
+    function toggleProfileDropdown(event) {
+        event.stopPropagation();
+        const profileMenu = document.querySelector('.profile-menu');
+        profileMenu.classList.toggle('show');
+    }
+
+    // Close the profile dropdown if clicked outside
+    document.addEventListener('click', function(event) {
+        const profileMenu = document.querySelector('.profile-menu');
+        if (!profileMenu.contains(event.target)) {
+            profileMenu.classList.remove('show');
+        }
+    });
 </script>
 </body>
 </html>
