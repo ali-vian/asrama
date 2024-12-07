@@ -5,41 +5,66 @@ include 'koneksi.php';
 // Menyertakan File HeaderSidebar.php
 include 'headersidebar.php';
 
-// Mendapatkan data warga dengan NIM 20230001
-$nim = '20230001';
-$sql_warga = "SELECT * FROM warga WHERE nim = '$nim'";
-$result_warga = $conn->query($sql_warga);
+// Proses login
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $conn->real_escape_string($_POST['email']);
+    $password = $conn->real_escape_string($_POST['password']);
 
-// Memeriksa jika data ditemukan
-if ($result_warga->num_rows > 0) {
-    $warga = $result_warga->fetch_assoc();
-    $nama_warga = $warga['nama'];
-    $email_warga = $warga['email'];
-    $prodi = $warga['prodi'];
-    $kamar = $warga['kamar'];
-} else {
-    echo "Data warga tidak ditemukan.";
-    exit;
-}
+    // Validasi email dan password
+    $sql_warga = "SELECT * FROM warga WHERE email = '$email'";
+    $result_warga = $conn->query($sql_warga);
 
-// Mengambil data absensi warga
-$sql_absensi = "SELECT * FROM absensi WHERE nim = '$nim'";
-$result_absensi = $conn->query($sql_absensi);
-$total_hadir = 0;
-$total_tidak_hadir = 0;
-$total_izin = 0;
+    if ($result_warga->num_rows > 0) {
+        $warga = $result_warga->fetch_assoc();
 
-while ($absensi = $result_absensi->fetch_assoc()) {
-    switch ($absensi['status_kehadiran']) {
-        case 'Hadir':
-            $total_hadir++;
-            break;
-        case 'Tidak Hadir':
-            $total_tidak_hadir++;
-            break;
-        case 'Izin':
-            $total_izin++;
-            break;
+        // Verifikasi password
+        if (password_verify($password, $warga['password'])) {
+            // Data warga
+            $nim = $warga['nim'];
+            $nama_warga = $warga['nama'];
+            $email_warga = $warga['email'];
+            $prodi = $warga['prodi'];
+            $kamar = $warga['kamar'];
+
+            // Ambil data absensi
+            $sql_absensi = "SELECT * FROM absensi WHERE nim = '$nim'";
+            $result_absensi = $conn->query($sql_absensi);
+            $total_hadir = 0;
+            $total_tidak_hadir = 0;
+            $total_izin = 0;
+
+            while ($absensi = $result_absensi->fetch_assoc()) {
+                switch ($absensi['status_kehadiran']) {
+                    case 'Hadir':
+                        $total_hadir++;
+                        break;
+                    case 'Tidak Hadir':
+                        $total_tidak_hadir++;
+                        break;
+                    case 'Izin':
+                        $total_izin++;
+                        break;
+                }
+            }
+
+            // Simpan informasi di sesi
+            $_SESSION['nim'] = $nim;
+            $_SESSION['nama'] = $nama_warga;
+            $_SESSION['email'] = $email_warga;
+            $_SESSION['prodi'] = $prodi;
+            $_SESSION['kamar'] = $kamar;
+            $_SESSION['total_hadir'] = $total_hadir;
+            $_SESSION['total_tidak_hadir'] = $total_tidak_hadir;
+            $_SESSION['total_izin'] = $total_izin;
+
+            // Arahkan ke dashboard
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            echo "Password salah.";
+        }
+    } else {
+        echo "Email tidak ditemukan.";
     }
 }
 
