@@ -57,7 +57,7 @@ $sql_kegiatan = "SELECT nama_kegiatan, tanggal_kegiatan, tempat
 $result_kegiatan = $conn->query($sql_kegiatan);
 
 // Mengambil data notifikasi terbaru dari view notifikasi_kegiatan
-$sql_notifikasi = "SELECT * FROM notifikasi_kegiatan ORDER BY created_at DESC";
+$sql_notifikasi = "SELECT * FROM kegiatan ORDER BY created_at DESC";
 $result_notifikasi = $conn->query($sql_notifikasi);
 ?>
 
