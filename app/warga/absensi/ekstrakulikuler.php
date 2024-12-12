@@ -13,7 +13,7 @@
     require_once '../../ketua/templates/header.php';
 
     // Ambil NIM pengguna dari sesi login
-    $nim = '12345678901';
+    $nim = '250511010004';
 ?>
 
 <div class="content">
@@ -205,5 +205,5 @@
 </script>
 
 <?php 
-    require_once '../templates/footer.php';
+    require_once '../../ketua/templates/footer.php';
 ?>

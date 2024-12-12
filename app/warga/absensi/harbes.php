@@ -14,7 +14,7 @@
 
     // Ambil NIM pengguna dari sesi login
     require_once '../../ketua/templates/header.php';
-    $nim = '12345678901'; // NIM pengguna
+    $nim = '250511010004'; // NIM pengguna
 ?>
 
 
@@ -29,7 +29,7 @@
                 <button class="select-btn v-button" onclick="dropdownAbsensi()">v</button>
             </div>
             <div class="select-content" id="absensiContent">
-                <div class="select-option border-bottom" data-value="hari_besar.php" onclick="selectAbsensi(this)">Absensi Harian</div>
+                <div class="select-option border-bottom" data-value="absen.php" onclick="selectAbsensi(this)">Absensi Harian</div>
                 <div class="select-option border-bottom" data-value="ekstrakulikuler.php" onclick="selectAbsensi(this)">Absensi Ekstrakulikuler</div>
                 <div class="select-option" data-value="harbes.php" onclick="selectAbsensi(this)" selected>Absensi Hari Besar</div>
             </div>
@@ -160,5 +160,5 @@
 
 
 <?php 
-    require_once '../templates/footer.php';
+    require_once '../../ketua/templates/footer.php';
 ?>
