@@ -5,26 +5,28 @@ include 'koneksi.php';
 // Menyertakan File HeaderSidebar.php
 include 'headersidebar.php';
 
-// Mendapatkan data warga dengan NIM 20230001
-$nim = '20230001';
-$sql_warga = "SELECT * FROM warga WHERE nim = '$nim'";
-$result_warga = $conn->query($sql_warga);
+// Memulai session
+session_start();
 
-// Memeriksa jika data ditemukan
-if ($result_warga->num_rows > 0) {
-    $warga = $result_warga->fetch_assoc();
-    $nama_warga = $warga['nama'];
-    $email_warga = $warga['email'];
-    $prodi = $warga['prodi'];
-    $kamar = $warga['kamar'];
-} else {
-    echo "Data warga tidak ditemukan.";
+// Cek jika pengguna sudah login
+if (!isset($_SESSION['nim'])) {
+    // Jika pengguna belum login, redirect ke halaman login
+    header("Location: login.php");
     exit;
 }
+
+// Mengambil informasi pengguna dari session
+$nim = $_SESSION['nim'];
+$nama_warga = $_SESSION['nama'];
+$email_warga = $_SESSION['email'];
+$prodi = $_SESSION['prodi'];
+$kamar = $_SESSION['kamar'];
+$foto_warga = $_SESSION['foto_warga'];
 
 // Mengambil data absensi warga
 $sql_absensi = "SELECT * FROM absensi WHERE nim = '$nim'";
 $result_absensi = $conn->query($sql_absensi);
+
 $total_hadir = 0;
 $total_tidak_hadir = 0;
 $total_izin = 0;
@@ -43,6 +45,7 @@ while ($absensi = $result_absensi->fetch_assoc()) {
     }
 }
 
+
 // Mendapatkan tanggal saat ini
 $tanggal_sekarang = date('Y-m-d');
 
@@ -54,7 +57,7 @@ $sql_kegiatan = "SELECT nama_kegiatan, tanggal_kegiatan, tempat
 $result_kegiatan = $conn->query($sql_kegiatan);
 
 // Mengambil data notifikasi terbaru dari view notifikasi_kegiatan
-$sql_notifikasi = "SELECT * FROM notifikasi_kegiatan ORDER BY created_at DESC";
+$sql_notifikasi = "SELECT * FROM kegiatan ORDER BY created_at DESC";
 $result_notifikasi = $conn->query($sql_notifikasi);
 ?>
 
@@ -340,7 +343,7 @@ $result_notifikasi = $conn->query($sql_notifikasi);
                     <div class="profile-dropdown">
                         <a href="#">Profil</a>
                         <a href="#">Pengaturan</a>
-                        <a href="#">Keluar</a>
+                        <a href="logout.php">Keluar</a>
                     </div>
                 </div>
             </div>
