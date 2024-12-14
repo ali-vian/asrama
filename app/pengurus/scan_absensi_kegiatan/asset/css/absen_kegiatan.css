@@ -1,0 +1,221 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+h1 {
+  font-size: 24px;
+  color: #333;
+  text-align: left;
+}
+.details {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.details dt {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.details dd {
+  margin: 0 0 15px 0;
+  color: #555;
+}
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.attendance-table th,
+.attendance-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+.attendance-table th {
+  background-color: #f0f0f0;
+}
+.button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.qr-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.qr-button img {
+  width: 40px;
+  height: 40px;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+.pagination button,
+.pagination .current-page {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+.pagination .current-page {
+  font-weight: bold;
+  background-color: #007bff;
+  color: #fff;
+}
+.pagination button:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+.status-button {
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.status-button.hadir {
+  background-color: #28a745;
+}
+.status-button.alpha {
+  background-color: #dc3545;
+}
+.status-button.izin {
+  background-color: #ffc107;
+  color: #333;
+}
+.status-button:hover {
+  opacity: 0.9;
+}
+.status-time {
+  font-size: 12px;
+  color: #555;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+.modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.close {
+  color: #aaa;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover,
+.close:focus {
+  color: #333;
+}
+.status-option {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+.status-option.hadir {
+  background-color: #28a745;
+  color: #fff;
+}
+.status-option.alpha {
+  background-color: #dc3545;
+  color: #fff;
+}
+.status-option.izin {
+  background-color: #ffc107;
+  color: #333;
+}
+.status-option:hover {
+  opacity: 0.8;
+}
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  .details {
+    padding: 10px;
+    font-size: 14px;
+  }
+  .attendance-table th,
+  .attendance-table td {
+    padding: 6px;
+    font-size: 12px;
+  }
+  .qr-button img {
+    width: 30px;
+    height: 30px;
+  }
+}
+@media (max-width: 480px) {
+  h1 {
+    font-size: 18px;
+  }
+  .details {
+    font-size: 12px;
+  }
+  .attendance-table th,
+  .attendance-table td {
+    font-size: 10px;
+  }
+}
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+.search-button img {
+  width: 20px; /* Sesuaikan ukuran lebar */
+  height: 20px; /* Sesuaikan ukuran tinggi */
+  object-fit: contain; /* Menjaga proporsi gambar */
+}
