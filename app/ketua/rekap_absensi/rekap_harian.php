@@ -1,7 +1,7 @@
 <?php 
     $pageTitle = "Rekap Absensi Harian";
 
-    require_once '../templates/header.php';
+    require_once '../templates/new_header.php';
 ?>
 
 <div class="content">

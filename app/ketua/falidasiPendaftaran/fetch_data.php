@@ -53,10 +53,10 @@ if ($result->num_rows > 0) {
         if ($status == 'pending') {
             echo "<td><button class='btn btn-info btn-sm' onclick='showDetail(\"" . $row['nim'] . "\")'>Detail</button></td>";
             echo "<td>
-                    <button type='button' onclick='showAcceptModal(\"" . $row['nim'] . "\")' class='btn btn-success btn-sm'>Accept</button>
+                    <button type='button' onclick='showAcceptModal(\"" . $row['nim'] . "\")' class='bg-green-500 btn btn-success btn-sm'>Accept</button>
                     <form method='post' style='display:inline;'>
                       <input type='hidden' name='nim' value='" . $row['nim'] . "'>
-                      <button type='submit' name='action' value='reject' class='btn btn-danger btn-sm'>Reject</button>
+                      <button type='submit' name='action' value='reject' class='bg-red-500 btn btn-danger btn-sm'>Reject</button>
                     </form>
                   </td>";
         } else {

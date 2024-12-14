@@ -105,33 +105,9 @@ $totalStudents = $femaleCount + $maleCount;
 // Fetch data from the `pendaftaran` table for the table display
 $sql = "SELECT nama_lengkap, nim, prodi_pendaftar, ttl FROM pendaftaran";
 $result = $conn->query($sql);
+
+include "../templates/new_header.php"
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asrama Dashboard</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head>
-<body>
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="text-center">
-      <img src="asset/asrama_utm.png" alt="Logo" style="width: 100px;">
-      <h5>ASRAMA</h5>
-    </div>
-    <a href="#">Dashboard</a>
-    <a href="#">Aspirasi</a>
-    <a href="#" class="active">Pendaftaran Warga</a>
-    <a href="#">Event</a>
-    <a href="#">Jajak Pendapat</a>
-  </div>
-
   <!-- Main Content -->
   <div class="main-content">
     <div class="container-fluid">
@@ -225,20 +201,17 @@ $result = $conn->query($sql);
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="acceptModalLabel">Lengkapi Data Warga</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <form id="acceptForm" method="post">
           <div class="modal-body">
             <input type="hidden" id="acceptNim" name="nim">
             <div class="form-group">
               <label for="kamar">Kamar:</label>
-              <input type="text" class="form-control" id="kamar" name="kamar" required>
+              <input type="text" class="form-control rounded" id="kamar" name="kamar" required>
             </div>
             <div class="form-group">
               <label for="gedung">Gedung:</label>
-              <input type="text" class="form-control" id="gedung" name="gedung" required>
+              <input type="text" class="form-control rounded" id="gedung" name="gedung" required>
             </div>
             <div class="form-group">
               <label for="pengurus">Musahhil/Pengurus Pendamping:</label>
@@ -250,8 +223,8 @@ $result = $conn->query($sql);
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" name="action" value="accept" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary bg-gray-500 rounded" data-dismiss="modal">Close</button>
+            <button type="submit" name="action" value="accept" class="btn btn-primary bg-blue-600 rounded ">Save changes</button>
           </div>
         </form>
       </div>
@@ -286,7 +259,7 @@ $result = $conn->query($sql);
   <script src="script.js"></script>
 </body>
 </html>
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <!-- JS for Chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

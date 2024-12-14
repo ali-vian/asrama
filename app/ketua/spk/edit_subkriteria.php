@@ -1,12 +1,13 @@
-<?php include 'header.php';?>
-<?php include 'menu.php';?>
+<?php include '../templates/new_header.php';?>
+<?php include 'menu.php';
+include 'config.php';?>
 <div class="content-wrapper">
-    <div class="container">
+    
         <div class="row">
             <div class="col-md-12">
             <br/>  
               <div class="panel panel-default">
-                  <div class="panel-heading">
+                  <div class="panel-heading text-2xl mb-3">
                     Form Sub Kriteria
                   </div>
                   <div class="panel-body">
@@ -18,11 +19,11 @@
                           <?php endif ?>
                           <?php foreach ($db->select('*','sub_kriteria')->where('id_subkriteria='.$_GET['id'])->get() as $data): ?>
                               <input type="hidden" name="id" value="<?= $data[0]?>">
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="nama">Nama Sub Kriteria</label>
-                                    <input type="text" readonly class="form-control" id="subkriteria" name="subkriteria" value="<?= $data['subkriteria']?>">
+                                    <input type="text" readonly class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" id="subkriteria" name="subkriteria" value="<?= $data['subkriteria']?>">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="nama">Nama Kriteria</label>
                                     <select required class="form-control" id="id_kriteria" name="id_kriteria">
                                         <?php  foreach ($db->select('*','kriteria')->get() as $val): ?> 
@@ -31,9 +32,9 @@
                                         <?php endforeach ?>
                                     </select>   
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label>Nilai</label>
-                                    <input type="number" name="nilai" id="nilai" class="form-control " value="<?= $data['nilai']?>" pattern="^[0-9\.\-\/]+$">
+                                    <input type="number" name="nilai" id="nilai" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="<?= $data['nilai']?>" pattern="^[0-9\.\-\/]+$">
                                 </div>
 
                           <?php endforeach ?>
@@ -47,9 +48,8 @@
             </div>
         </div>
         </div>
-    </div>
 </div>
-<?php include 'footer.php';?>
+<?php include '../templates/new_footer.php';?>
 <script type="text/javascript">
     $(function(){
         $("#sk").addClass('menu-top-active');

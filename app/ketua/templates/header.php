@@ -2,6 +2,7 @@
     include '../../base.php';
 
     $pages = basename($_SERVER['PHP_SELF']);
+    include 'config.php';
 
     $no = 1;
 ?>

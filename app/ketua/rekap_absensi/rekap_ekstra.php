@@ -1,6 +1,6 @@
 <?php 
     $pageTitle = "Rekap Absensi Kegiatan Ekstrakulikuler";
-    require_once '../templates/header.php';
+    require_once '../templates/new_header.php';
 ?>
 
 <div class="content">

@@ -1,5 +1,6 @@
-<?php include 'header.php';?>
-<?php include 'menu.php';?>
+<?php include '../templates/new_header.php';?>
+<?php include 'menu.php';
+include 'config.php';?>
     <div class="content-wrapper">
         <div class="container">
             <div class="row">
@@ -11,8 +12,8 @@
                     <?php endif ?>
                 </div>
             </div>  
-            <div class="row">
-                <div><a href="input_tpa.php" class="btn btn-info">Tambah Data</a></div>
+            <div class="row text-sm">
+                <div><a href="input_tpa.php" class="btn btn-info mb-5">Tambah Data</a></div>
                 <br>
                 <div class="table-responsive">
                     <table id="example1" class="table table-striped table-bordered">
@@ -52,14 +53,14 @@
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
 
-<?php include 'footer.php'; ?>
+    <script type="text/javascript">
+        $(function(){
+            $("#tpa").addClass('menu-top-active');
+        });
+    </script>
 <script type="text/javascript">
-    $(function(){
-        $("#tpa").addClass('menu-top-active');
+    $(function() {
+        $('#example1').dataTable();
     });
-</script>
-<script type="text/javascript">
-            $(function() {
-                $('#example1').dataTable();
-            });
-        </script>
+    </script>
+    <?php include '../templates/new_footer.php'; ?>

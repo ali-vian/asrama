@@ -1,9 +1,10 @@
-<?php include 'header.php';?>
-<?php include 'menu.php';?>
+<?php include '../templates/new_header.php';?>
+<?php include 'menu.php';
+include 'config.php';?>
     <div class="content-wrapper">
-        <div class="container">
+        <div>
             <div class="row">
-                <h3>Tabel Hasil TPA</h3>
+                <h3 class="mt-6 text-2xl">Tabel Hasil TPA</h3>
                 <div class="table-responsive">
                     <table id="example1" class="table table-striped table-bordered table-hover">
                         <thead>
@@ -42,13 +43,13 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button class="btn btn-lg" onclick="tpl()">PROSES</button>
+                    <button class="btn btn-success" onclick="tpl()">PROSES</button>
                 </div>
             </div>
             <br>
             <div id="proses_spk" style="display: none;">
                 <div class="row" >
-                <h3>Normalisasi</h3>
+                <h3 class="mt-6 text-2xl">Normalisasi</h3>
                 <div class="table-responsive">
                     <table id="example2" class="table table-striped table-bordered table-hover">
                         <thead>
@@ -86,7 +87,7 @@
                 </div>
             </div>
             <div class="row">
-                <h3>Proses Penentuan</h3>
+                <h3 class="mt-6 text-2xl">Proses Penentuan</h3>
                 <div class="table-responsive">
                     <table id="example3" class="table table-striped table-bordered table-hover">
                         <thead>
@@ -131,7 +132,7 @@
                 </div>
             </div>
             <div class="row">
-                <h3>Perankingan</h3>
+                <h3 class="mt-6 text-2xl">Perankingan</h3>
                 <div class="table-responsive">
                     <table id="example4" class="table table-striped table-bordered table-hover">
                         <thead>
@@ -194,7 +195,6 @@
     </div>
 </div>
     <!-- CONTENT-WRAPPER SECTION END-->
-<?php include 'footer.php'; ?>
 <script type="text/javascript">
     $(function(){
         $("#proses").addClass('menu-top-active');
@@ -210,3 +210,4 @@
        $("#proses_spk").show();    
     }
 </script>
+<?php include '../templates/new_footer.php'; ?>

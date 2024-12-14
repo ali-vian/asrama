@@ -1,213 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Formulir Kepuasan Kegiatan</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --sidebar-width: 250px;
-            --header-height: 60px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            height: 100vh;
-            width: var(--sidebar-width);
-            background: white;
-            position: fixed;
-            left: 0;
-            top: 0;
-            border-right: 1px solid #e5e7eb;
-            z-index: 1000;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .sidebar-header h4 {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .nav-item {
-            padding: 0.75rem 1.5rem;
-            color: #4b5563;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item:hover {
-            background-color: #f3f4f6;
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .nav-item i {
-            margin-right: 0.75rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            padding: 2rem;
-        }
-
-        .page-header {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            color: #111827;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        /* Detail Card Styles */
-        .detail-card {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-
-        .detail-content {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-        }
-
-        .detail-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-label {
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .detail-value {
-            color: #4b5563;
-            font-size: 1rem;
-            line-height: 1.5;
-            padding: 0.75rem;
-            background-color: #f9fafb;
-            border-radius: 0.375rem;
-            border: 1px solid #e5e7eb;
-        }
-
-        .detail-full {
-            grid-column: span 2;
-        }
-
-        .detail-actions {
-            display: flex;
-            justify-content: center;
-            gap: 5rem;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e5e7eb;
-            grid-column: span 2;
-        }
-
-        .btn-action {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            min-width: 120px;
-            justify-content: center;
-        }
-
-        .btn-back {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .btn-back:hover {
-            background-color: #1d4ed8;
-            color: white;
-            text-decoration: none;
-        }
-
-        .btn-delete {
-            background-color: #ef4444;
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background-color: #dc2626;
-            color: white;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .detail-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .detail-full {
-                grid-column: span 1;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h4>Dashboard</h4>
-        </div>
-        <a href="aspirasi.php" class="nav-item">
-            <i class="fas fa-comments"></i>
-            Aspirasi
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-user-plus"></i>
-            Pendaftaran Warga
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-clipboard-list"></i>
-            Rekap Absensi
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-calendar-alt"></i>
-            Event
-        </a>
-        <a href="puas-kegiatan.php" class="nav-item">
-            <i class="fas fa-poll"></i>
-            Jajak Pendapat
-        </a>
-    </div>
+<?php include "../templates/new_header.php"?>
 
     <div class="main-content">
         <?php
@@ -241,59 +32,59 @@
             }
         ?>
             <div class="page-header">
-                <h1 class="page-title">Detail Kepuasan Kegiatan</h1>
+                <h1 class="page-title font-bold text-xl mb-3">Detail Kepuasan Kegiatan</h1>
             </div>
 
             <div class="detail-card">
                 <div class="detail-content">
-                    <div class="detail-group">
-                        <div class="detail-label">Nomor Induk Mahasiswa</div>
-                        <div class="detail-value"><?= htmlspecialchars($form['nim']) ?></div>
+                    <div class="detail-group mb-3">
+                        <div class="detail-label font-bold">Nomor Induk Mahasiswa</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= htmlspecialchars($form['nim']) ?></div>
                     </div>
 
-                    <div class="detail-group">
-                        <div class="detail-label">Nama Kegiatan</div>
-                        <div class="detail-value"><?= htmlspecialchars($form['nama_kegiatan']) ?></div>
+                    <div class="detail-group mb-3">
+                        <div class="detail-label font-bold">Nama Kegiatan</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= htmlspecialchars($form['nama_kegiatan']) ?></div>
                     </div>
 
-                    <div class="detail-group detail-full">
-                        <div class="detail-label">Pertanyaan 1</div>
-                        <div class="detail-value"><?= nl2br(htmlspecialchars($form['pertanyaan1'])) ?></div>
+                    <div class="detail-group mb-3 detail-full">
+                        <div class="detail-label font-bold">Pertanyaan 1</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= nl2br(htmlspecialchars($form['pertanyaan1'])) ?></div>
                     </div>
 
-                    <div class="detail-group detail-full">
-                        <div class="detail-label">Pertanyaan 2</div>
-                        <div class="detail-value"><?= nl2br(htmlspecialchars($form['pertanyaan2'])) ?></div>
+                    <div class="detail-group mb-3 detail-full">
+                        <div class="detail-label font-bold">Pertanyaan 2</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= nl2br(htmlspecialchars($form['pertanyaan2'])) ?></div>
                     </div>
 
-                    <div class="detail-group detail-full">
-                        <div class="detail-label">Pertanyaan 3</div>
-                        <div class="detail-value"><?= nl2br(htmlspecialchars($form['pertanyaan3'])) ?></div>
+                    <div class="detail-group mb-3 detail-full">
+                        <div class="detail-label font-bold">Pertanyaan 3</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= nl2br(htmlspecialchars($form['pertanyaan3'])) ?></div>
                     </div>
 
-                    <div class="detail-group detail-full">
-                        <div class="detail-label">Pertanyaan 4</div>
-                        <div class="detail-value"><?= nl2br(htmlspecialchars($form['pertanyaan4'])) ?></div>
+                    <div class="detail-group mb-3 detail-full">
+                        <div class="detail-label font-bold">Pertanyaan 4</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= nl2br(htmlspecialchars($form['pertanyaan4'])) ?></div>
                     </div>
 
-                    <div class="detail-group detail-full">
-                        <div class="detail-label">Pertanyaan 5</div>
-                        <div class="detail-value"><?= nl2br(htmlspecialchars($form['pertanyaan5'])) ?></div>
+                    <div class="detail-group mb-3 detail-full">
+                        <div class="detail-label font-bold">Pertanyaan 5</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= nl2br(htmlspecialchars($form['pertanyaan5'])) ?></div>
                     </div>
 
-                    <div class="detail-group detail-full">
-                        <div class="detail-label">Saran dan Masukan</div>
-                        <div class="detail-value"><?= nl2br(htmlspecialchars($form['saran_masukan'])) ?></div>
+                    <div class="detail-group mb-3 detail-full">
+                        <div class="detail-label font-bold">Saran dan Masukan</div>
+                        <div class="detail-value bg-gray-50 border border-gray-300 text-gray-900 p-2 rounded"><?= nl2br(htmlspecialchars($form['saran_masukan'])) ?></div>
                     </div>
 
-                    <div class="detail-actions">
-                        <a href="puas-kegiatan.php" class="btn btn-action btn-back">
+                    <div class="detail-actions text-center">
+                        <a href="puas-kegiatan.php" class="bg-blue-600 hover:bg-blue-700 py-2 mr-3 px-2 text-white rounded">
                             <i class="fas fa-arrow-left"></i>
                             Kembali
                         </a>
                         <form action="puas-kegiatan.php" method="POST" class="d-inline">
                             <input type="hidden" name="id" value="<?= $form['id_formulir_kegiatan'] ?>">
-                            <button type="submit" name="delete" class="btn btn-action btn-delete" onclick="return confirm('Are you sure you want to delete this record?')">
+                            <button type="submit" name="delete" class="bg-red-600 hover:bg-red-700 py-0.5 px-2 text-white rounded" onclick="return confirm('Are you sure you want to delete this record?')">
                                 <i class="fas fa-trash"></i>
                                 Delete
                             </button>

@@ -1,7 +1,7 @@
 <?php 
     $pageTitle = "Rekap Absensi Kegiatan Hari Besar";
     
-    require_once '../templates/header.php';
+    require_once '../templates/new_header.php';
 ?>
 
 <div class="content">

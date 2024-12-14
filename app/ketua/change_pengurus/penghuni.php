@@ -1,7 +1,7 @@
 <?php 
 $pageTitle  = "penghuni";
-include '../templates/header.php';
-// include '../templates/headersidebar.php';
+include '../templates/new_header.php';
+// include "config.php";
 include('koneksi.php');
 
 
@@ -36,7 +36,7 @@ if (isset($_POST['nim'])) {
 
 <div class="flex-grow-1">
     <div class="container mt-4">
-        <h2>Penghuni Asrama Mahasiswa Universitas Trunojoyo Madura</h2>
+        <h2 class="text-2xl mb-3">Penghuni Asrama Mahasiswa Universitas Trunojoyo Madura</h2>
         <hr>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <!-- <button class="btn btn-danger mb-3">Delete All</button> -->
@@ -61,12 +61,12 @@ if (isset($_POST['nim'])) {
                                 <td>{$row['nama']}</td>
                                 <td>{$row['prodi']}</td>
                                 <td>
-                                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#modalPengurus' 
+                                    <button type='button' class='btn btn-primary bg-blue-600' data-bs-toggle='modal' data-bs-target='#modalPengurus' 
                                         data-nim='{$row['nim']}' data-nama='{$row['nama']}' data-prodi='{$row['prodi']}' data-no_hp='{$row['no_hp']}' data-email='{$row['email']}' data-password='{$row['password']}' data-foto_warga='{$row['foto_warga']}' data-gedung='{$row['gedung']}'>Jadikan Pengurus</button>
                                     
                                     <form action='' method='POST' style='display:inline;'>
                                         <input type='hidden' name='nim' value='{$row['nim']}'>
-                                        <button type='submit' class='btn btn-danger' onclick='return confirm(\"Anda yakin ingin menghapus data ini?\");'>Hapus</button>
+                                        <button type='submit' class='btn btn-danger bg-red-600' onclick='return confirm(\"Anda yakin ingin menghapus data ini?\");'>Hapus</button>
                                     </form>    
                                 </td>
                             </tr>";
@@ -151,8 +151,8 @@ if (isset($_POST['nim'])) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-secondary bg-gray-500" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary bg-blue-600">Simpan</button>
                 </div>
             </form>
         </div>

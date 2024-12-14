@@ -5,14 +5,16 @@ include 'db_connection.php';
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+include "../templates/new_header.php"
 ?>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dasbord Manajemen Pengurus Asrama</title>
-    <!-- Bootstrap CSS -->
+    
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -33,11 +35,10 @@ if ($conn->connect_error) {
                 <li class="nav-item"><a class="nav-link" href="#">Jajak Pendapat</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Aspirasi</a></li>
             </ul>
-        </aside>
+        </aside> -->
 
         <main class="flex-grow-1 p-4">
             <div class="container">
-                <h1 class="mb-4">Dasbord Manajemen Pengurus Asrama</h1>
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">Manajemen Pengurus Asrama & Penetapan Musahhil kamar warga</h5>

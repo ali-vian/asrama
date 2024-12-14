@@ -1,9 +1,9 @@
 <?php 
-// include '../templates/headersidebar.php';
-include 'header.php';
-include 'menu.php';?>
+include '../templates/new_header.php';
+include 'menu.php';
+include 'config.php';?>
     <div class="content-wrapper">
-        <div class="container">
+        <div>
             <div class="row">
                 <div class="col-md-12">
                     <?php if (!empty($_GET['error_msg'])): ?>
@@ -14,9 +14,8 @@ include 'menu.php';?>
                 </div>
             </div>  
             <div class="row">
-                <div><a href="input_kriteria.php" class="btn btn-info">Tambah Data</a></div>
-                <br>
-                <div class="table-responsive">
+                <div><a href="input_kriteria.php" class="btn btn-info mb-5">Tambah Data</a></div>
+                <div class="table-responsive ">
                     <table id="example1" class="table table-striped table-bordered">
                         <thead>
                             <tr>
@@ -46,14 +45,14 @@ include 'menu.php';?>
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
 
-<?php include 'footer.php'; ?>
+    <script type="text/javascript">
+        $(function(){
+            $("#ds").addClass('menu-top-active');
+        });
+    </script>
 <script type="text/javascript">
-    $(function(){
-        $("#ds").addClass('menu-top-active');
+    $(function() {
+        $('#example1').dataTable();
     });
-</script>
-<script type="text/javascript">
-            $(function() {
-                $('#example1').dataTable();
-            });
-        </script>
+    </script>
+    <?php include '../templates/new_footer.php'; ?>

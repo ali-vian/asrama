@@ -1,12 +1,13 @@
-<?php include 'header.php';?>
-<?php include 'menu.php';?>
+<?php include '../templates/new_header.php';?>
+<?php include 'menu.php';
+include 'config.php';?>
 <div class="content-wrapper">
-    <div class="container">
+    <div >
         <div class="row">
             <div class="col-md-12">
             <br/>  
               <div class="panel panel-default">
-                  <div class="panel-heading">
+                  <div class="text-2xl text-gray-900 mb-3">
                     Form Kriteria
                   </div>
                   <div class="panel-body">
@@ -16,30 +17,21 @@
                                   <?= $_GET['error_msg']; ?>
                               </div>
                           <?php endif ?>
-                          <div class="form-group">
-                              <label for="nama">Nama Kriteria</label>
-                              <input type="text" required class="form-control" id="kriteria" name="kriteria">
-                          </div>
-                          <div class="form-group">
-                              <label>Bobot</label>
-                              <?php 
-                                //   $n = 0; 
-                                //   foreach ($db->select('bobot','kriteria')->get() as $k){
-                                //      $n += $k['bobot'];
-                                //   }
-                                //   $h = 1000-$n;
-                               ?>
-                              <input type="number" required name="bobot" class="form-control bobot " pattern="^[0-9\.\-\/]+$" value="<?= $h ?>">
-                          </div>
-                          <div class="form-group">
-                              <label>Type</label>
-                              <select class="form-control" name="type">
-                                    <option value="Cost">Cost</option>
-                                    <option value="Benefit">Benefit</option>
-                                </select>
-                          </div>
-                          <div class="form-group">
-                              <button class="btn btn-primary">Simpan</button>
+                          <div class="mb-6">
+                                <label for="nama-krit" class="block mb-2 font-medium text-gray-900">Nama Kriteria</label>
+                                <input type="text" id="nama-krit" name="kriteria" require class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            </div>
+                          <div class="mb-6">
+                                <label for="bobot" class="block mb-2 font-medium text-gray-900">Bobot</label>
+                                <input type="number" id="bobot" name="bobot" pattern="^[0-9\.\-\/]+$"  require class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            </div>
+                        <label for="type" class="block mb-2 font-medium text-gray-900">Type</label>
+                        <select id="typr" name="type" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="Cost">Cost</option>
+                            <option value="Benefit">Benefit</option>
+                        </select>
+                          <div class="form-group mt-6">
+                              <button class="btn btn-primary rounded-lg">Simpan</button>
                           </div>
                       </form>
                   </div>
@@ -50,7 +42,7 @@
     </div>
 </div>
 
-<?php include 'footer.php';?>
+<?php include '../templates/new_footer.php';?>
 <script type="text/javascript">
     $(function(){
         $("#ds").addClass('menu-top-active');
