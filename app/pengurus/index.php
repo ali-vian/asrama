@@ -1,6 +1,6 @@
 <?php
 // Koneksi ke database
-include "connect.php";
+include "./asset/connect.php";
 
 // Query untuk mengambil daftar kegiatan
 $query = "SELECT * FROM kegiatan";
@@ -16,7 +16,7 @@ $result = $connect->query($query);
     <script src="asset/css/rekap-absensi.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="asset/css/bar-ketua.css">
+    <link rel="stylesheet" href="./asset/style.css">
     <link rel="stylesheet" href="asset/css/rekap-absensi.css">
     <link rel="stylesheet" href="asset/css/style_penghuni.css">
     <style>
@@ -29,6 +29,7 @@ $result = $connect->query($query);
         }
 
         .sidebar {
+            font-size: 15px;
             width: 250px; /* Lebar sidebar */
             height: 100vh;
             background: #f8f9fa;
@@ -38,7 +39,7 @@ $result = $connect->query($query);
         }
 
         .content {
-            padding: 20px;
+            padding: 15px;
             flex: 1; /* Menyebabkan content mengisi sisa ruang yang tersedia */
         }
 
@@ -116,40 +117,7 @@ $result = $connect->query($query);
     <!-- Sidebar -->
     <div class="sidebar">
         <img class="logo" src="asset/img/logo.png" alt="logo">
-        <div class="side-container">
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "dashboard.php") echo "active"; ?>" href="#dashboard.php">
-                <img class="side-img" src="asset/img/dashboard.png" alt="dashboard">
-                Dashboard
-            </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "aspirasi.php") echo "active"; ?>" href="#aspirasi.php">
-                <img class="side-img" src="asset/img/aspirasi.png" alt="aspirasi">
-                Aspirasi
-            </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "pendaftaran.php") echo "active"; ?>" href="#pendaftaran.php">
-                <img class="side-img" src="asset/img/pendaftaran.png" alt="pendaftaran">
-                Pendaftaran Warga
-            </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "penghuni.php") echo "active"; ?>" href="#penghuni.php">
-                <img class="side-img" src="asset/img/user.png" alt="Penghuni">
-                Warga Asrama
-            </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "rekap_harian.php" || basename($_SERVER['PHP_SELF']) == "rekap_ekstra.php" || basename($_SERVER['PHP_SELF']) == "rekap_besar.php") echo "active"; ?>" href="rekap_harian.php">
-                <img class="side-img" src="asset/img/rekap.png" alt="rekap">
-                Rekap Absensi
-            </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "event.php") echo "active"; ?>" href="#event.php">
-                <img class="side-img" src="asset/img/event.png" alt="event">
-                Event
-            </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "pendapat.php") echo "active"; ?>" href="#pendapat.php">
-                <img class="side-img" src="asset/img/pendapat.png" alt="pendapat">
-                Jejak Pendapat
-            </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "aspirasi2.php") echo "active"; ?>" href="#aspirasi2.php">
-                <img class="side-img" src="asset/img/aspirasi2.png" alt="aspirasi2">
-                Aspirasi
-            </a>
-        </div>
+        <?php include './asset/sidebar.php'; ?>
     </div>
     <div class="container">
         <!-- Konten Utama -->
@@ -161,7 +129,7 @@ $result = $connect->query($query);
                         <h2><?php echo htmlspecialchars($row['nama_kegiatan']); ?></h2>
                         <p><?php echo date('d-m-Y', strtotime($row['tanggal_kegiatan'])); ?></p>
                         <p><?php echo htmlspecialchars($row['tempat']); ?></p>
-                        <a href="edit_absen.php?id_kegiatan=<?php echo $row['id_kegiatan']; ?>">
+                        <a href="./scan_absensi_kegiatan/edit_absen.php?id_kegiatan=<?php echo $row['id_kegiatan']; ?>">
                             <button class="btn btn-absensi">
                                 ABSENSI <i class="fas fa-arrow-right"></i>
                             </button>
