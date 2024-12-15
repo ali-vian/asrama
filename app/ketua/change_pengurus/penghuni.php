@@ -61,12 +61,12 @@ if (isset($_POST['nim'])) {
                                 <td>{$row['nama']}</td>
                                 <td>{$row['prodi']}</td>
                                 <td>
-                                    <button type='button' class='btn btn-primary bg-blue-600' data-bs-toggle='modal' data-bs-target='#modalPengurus' 
+                                    <button type='button' class='btn btn-primary bg-blue-600 rounded' data-bs-toggle='modal' data-bs-target='#modalPengurus' 
                                         data-nim='{$row['nim']}' data-nama='{$row['nama']}' data-prodi='{$row['prodi']}' data-no_hp='{$row['no_hp']}' data-email='{$row['email']}' data-password='{$row['password']}' data-foto_warga='{$row['foto_warga']}' data-gedung='{$row['gedung']}'>Jadikan Pengurus</button>
                                     
                                     <form action='' method='POST' style='display:inline;'>
                                         <input type='hidden' name='nim' value='{$row['nim']}'>
-                                        <button type='submit' class='btn btn-danger bg-red-600' onclick='return confirm(\"Anda yakin ingin menghapus data ini?\");'>Hapus</button>
+                                        <button type='submit' class='btn btn-danger bg-red-600 rounded' onclick='return confirm(\"Anda yakin ingin menghapus data ini?\");'>Hapus</button>
                                     </form>    
                                 </td>
                             </tr>";
@@ -80,17 +80,19 @@ if (isset($_POST['nim'])) {
     </div>
 
     <!-- Pagination -->
-    <nav aria-label="Page navigation" class="mt-3">
-        <ul class="pagination justify-content -center">
-            <?php
-                $total_pages = ceil($total_data / $limit);
-                for ($i = 1; $i <= $total_pages; $i++) {
-                    $class = ($page == $i) ? 'active' : '';
-                    echo "<li class='page-item $class'><a class='page-link' href='?page=$i'>$i</a></li>";
-                }
-                ?>
-        </ul>
-    </nav>
+     <div class="container">
+        <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination justify-content -center">
+                <?php
+                    $total_pages = ceil($total_data / $limit);
+                    for ($i = 1; $i <= $total_pages; $i++) {
+                        $class = ($page == $i) ? 'active' : '';
+                        echo "<li class='page-item $class'><a class='page-link' href='?page=$i'>$i</a></li>";
+                    }
+                    ?>
+            </ul>
+        </nav>`
+     </div>
 </div>
 </div>
 
@@ -114,6 +116,8 @@ if (isset($_POST['nim'])) {
                             <option value="Kebersihan">Kebersihan dan Kesehatan</option>
                             <option value="Teknisi">Teknisi</option>
                             <option value="Keamanan">Keamanan</option>
+                            <option value="Peribadatan">Peribadatan</option>
+                            <option value="Kominfo">Kominfo</option>
                         </select>
                     </div>
 
@@ -151,8 +155,8 @@ if (isset($_POST['nim'])) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary bg-gray-500" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary bg-blue-600">Simpan</button>
+                    <button type="button" class="btn btn-secondary bg-gray-500 rounded" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary bg-blue-600 rounded">Simpan</button>
                 </div>
             </form>
         </div>
