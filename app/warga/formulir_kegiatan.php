@@ -214,10 +214,18 @@ $kegiatan = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     </style>
-
     <script>
         let questionCount = 1; // Jumlah pertanyaan awal
         const maxQuestions = 5; // Maksimal 5 pertanyaan
+
+        // Daftar pertanyaan default
+        const defaultQuestions = [
+            "Secara keseluruhan, seberapa puas Anda dengan kegiatan ini?",
+            "Apakah kegiatan ini memenuhi harapan Anda?",
+            "Apa hal yang paling Anda sukai dari kegiatan ini?",
+            "Apa yang dapat ditingkatkan dari kegiatan ini?",
+            "Apakah Anda ingin berpatisipasi kalau ada kegiatan lagi?"
+        ];
 
         function addQuestion() {
             if (questionCount < maxQuestions) {
@@ -226,8 +234,8 @@ $kegiatan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 const newQuestion = document.createElement("div");
                 newQuestion.classList.add("mb-3");
                 newQuestion.innerHTML = `
-                <label for="pertanyaan${questionCount}" class="form-label">Pertanyaan ${questionCount}</label>
-                <input type="text" class="form-control" id="pertanyaan${questionCount}" name="pertanyaan${questionCount}" placeholder="Masukkan Pertanyaan ${questionCount}" />
+                <label for="pertanyaan${questionCount}" class="block text-gray-700 font-semibold mb-1">${defaultQuestions[questionCount - 1]}</label>
+                <input type="text" class="form-control w-full border border-gray-300 p-2 rounded-md" id="pertanyaan${questionCount}" name="pertanyaan${questionCount}" placeholder="${defaultQuestions[questionCount - 1]}" />
             `;
                 container.appendChild(newQuestion);
 
@@ -277,17 +285,6 @@ $kegiatan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 })
                 .catch((error) => console.error("Error:", error));
         }
-
-        // Menandai menu Jejak Pendapat yang aktif
-        document.addEventListener('DOMContentLoaded', function () {
-            const menuItems = document.querySelectorAll('.side-button');
-            menuItems.forEach(item => item.classList.remove('active'));
-
-            const jejakPendapatMenu = document.getElementById('menu-jejak-pendapat');
-            if (jejakPendapatMenu) {
-                jejakPendapatMenu.classList.add('active');
-            }
-        });
     </script>
 
 </head>
@@ -329,13 +326,16 @@ $kegiatan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <!-- Dynamic Questions -->
                     <div id="questions-container">
                         <div class="mb-3">
-                            <label for="pertanyaan1" class="form-label">Pertanyaan 1</label>
-                            <input type="text" class="form-control" id="pertanyaan1" name="pertanyaan1" placeholder="Masukkan Pertanyaan 1" />
+                            <label for="pertanyaan1" class="block text-gray-700 font-semibold mb-1">Secara keseluruhan, seberapa puas Anda dengan kegiatan ini?</label>
+                            <input type="text" class="form-control" id="pertanyaan1" name="pertanyaan1" placeholder="Secara keseluruhan, seberapa puas Anda dengan kegiatan ini?" />
                         </div>
                     </div>
 
                     <button type="button" onclick="addQuestion()" class="text-blue-500">+ Tambah Pertanyaan</button>
-
+                    <div class="mb-3">
+                        <label for="saran_masukan" class="block text-gray-700 font-semibold mb-1">Saran dan Masukan</label>
+                        <textarea class="form-control w-full border border-gray-300 p-2 rounded-md" id="saran_masukan" name="saran_masukan" placeholder="Masukkan Saran dan Masukan" rows="4"></textarea>
+                    </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" class="form-check-input" id="confirm" required />
                         <label class="form-check-label" for="confirm">Apakah kamu yakin mengirim pesan ini?</label>
