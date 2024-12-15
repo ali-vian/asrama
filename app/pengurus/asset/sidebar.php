@@ -24,7 +24,7 @@
                 <img class="side-img" src="./asset/img/ekstrakurikuler.png" alt="ekstrakurikuler">
                 Ekstrakurikuler
             </a>
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "pembayaran.php") echo "active"; ?>" href="./pembayaran/bukti_pembayaran.php">
+            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "validation.php") echo "active"; ?>" href="./validation_payment/validation.php">
                 <img class="side-img" src="./asset/img/pembayaran.png" alt="pembayaran">
                 Pembayaran
             </a>

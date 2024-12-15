@@ -1,70 +1,91 @@
 <?php
-include('koneksi.php'); // Hubungkan ke database
+session_start();
+include('koneksi.php');
 
-// Jika form di-submit
+// Cek jika pengguna adalah warga
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
+    echo "<script>alert('Akses ditolak! Anda harus login sebagai warga.'); window.location.href = 'login.php';</script>";
+    exit;
+}
+
+$nim = $_SESSION['nim']; // Ambil NIM dari sesi
+$error = '';
+$success = false;
+
+// Ambil data status pembayaran terbaru dari database
+$sql_status = "SELECT tanggal_upload, jumlah_bayar, metode_bayar, status_verifikasi, gambar 
+               FROM bukti_pembayaran 
+               WHERE nim = ? 
+               ORDER BY tanggal_upload DESC LIMIT 1";
+$stmt = $conn->prepare($sql_status);
+$stmt->bind_param("s", $nim);
+$stmt->execute();
+$result = $stmt->get_result();
+$pembayaran = $result->fetch_assoc();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nim = $_POST['nim'];
     $tanggal_upload = date("Y-m-d H:i:s");
     $jumlah_bayar = $_POST['jumlah_bayar'];
-    $metode_pembayaran = $_POST['metode_pembayaran'];
-    $status_verifikasi = "Menunggu"; // Status default
-    $catatan_admin = ""; // Default kosong
+    $metode_bayar = $_POST['metode_bayar'];
+    $status_verifikasi = "Menunggu";
+    $catatan_admin = "";
 
     // Proses upload file
     $target_dir = "uploads/";
     $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
-    $upload_ok = 1;
+    $file_ext = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Periksa apakah file adalah gambar
-    $check = getimagesize($_FILES["gambar"]["tmp_name"]);
-    if ($check !== false) {
-        $upload_ok = 1;
-    } else {
-        echo "File yang diunggah bukan gambar.";
-        $upload_ok = 0;
-    }
+    // Validasi file
+    $allowed_types = ['jpg', 'jpeg', 'png'];
+    $max_size = 2 * 1024 * 1024; // 2MB
 
-    // Upload file jika valid
-    if ($upload_ok && move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
-        // Masukkan data ke tabel `bukti_pembayaran`
-        $sql_insert = "INSERT INTO bukti_pembayaran (nim, tanggal_upload, jumlah_bayar, metode_pembayaran, status_verifikasi, gambar, catatan_admin)
-                       VALUES ('$nim', '$tanggal_upload', '$jumlah_bayar', '$metode_pembayaran', '$status_verifikasi', '" . basename($_FILES["gambar"]["name"]) . "', '$catatan_admin')";
+    if (!in_array($file_ext, $allowed_types)) {
+        $error = "Hanya file JPG, JPEG, atau PNG yang diperbolehkan.";
+    } elseif ($_FILES["gambar"]["size"] > $max_size) {
+        $error = "Ukuran file maksimal adalah 2MB.";
+    } elseif (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
+        $sql_insert = "INSERT INTO bukti_pembayaran (nim, tanggal_upload, jumlah_bayar, metode_bayar, status_verifikasi, gambar, catatan_admin)
+                       VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql_insert);
+        $stmt->bind_param("sssssss", $nim, $tanggal_upload, $jumlah_bayar, $metode_bayar, $status_verifikasi, basename($_FILES["gambar"]["name"]), $catatan_admin);
 
-        if ($conn->query($sql_insert) === TRUE) {
-            echo "<script>alert('Bukti pembayaran berhasil diunggah.'); window.location.href = 'status_pembayaran.php?nim=$nim';</script>";
+        if ($stmt->execute()) {
+            $success = true;
+            header("Refresh:0"); // Refresh halaman untuk menampilkan status terbaru
         } else {
-            echo "Gagal mengunggah bukti pembayaran: " . $conn->error;
+            $error = "Gagal menyimpan bukti pembayaran: " . $stmt->error;
         }
     } else {
-        echo "Maaf, terjadi kesalahan saat mengunggah file.";
+        $error = "Gagal mengunggah file.";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Upload Bukti Pembayaran</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-5">
         <h2>Upload Bukti Pembayaran</h2>
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="nim" class="form-label">NIM</label>
-                <input type="text" class="form-control" name="nim" id="nim" required>
-            </div>
+        <?php if ($success): ?>
+            <div class="alert alert-success">Bukti pembayaran berhasil diunggah.</div>
+        <?php elseif (!empty($error)): ?>
+            <div class="alert alert-danger"><?= $error; ?></div>
+        <?php endif; ?>
+
+        <!-- Form Upload -->
+        <form action="status_pembayaran.php" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="jumlah_bayar" class="form-label">Jumlah Pembayaran</label>
                 <input type="number" class="form-control" name="jumlah_bayar" id="jumlah_bayar" required>
             </div>
             <div class="mb-3">
-                <label for="metode_pembayaran" class="form-label">Metode Pembayaran</label>
-                <select class="form-select" name="metode_pembayaran" id="metode_pembayaran" required>
+                <label for="metode_bayar" class="form-label">Metode Pembayaran</label>
+                <select class="form-select" name="metode_bayar" id="metode_bayar" required>
                     <option value="Transfer Bank">Transfer Bank</option>
-                    <option value="Cash">Cash</option>
-                    <option value="E-Wallet">E-Wallet</option>
+                    <option value="Teller">Teller</option>
                 </select>
             </div>
             <div class="mb-3">

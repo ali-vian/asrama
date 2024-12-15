@@ -33,6 +33,11 @@
                         Dashboard
                     </a>
 
+                    <a class="side-button" id ="upload-pembayaran" <?php if ($pages == 'upload_bukti_pembayaran.php') echo 'active'; ?> href="upload_pembayaran/upload_bukti_pembayaran.php">
+                        <img class="side-img" src="images/aspirasi.png" alt="bukti_pembayaran">
+                        Bukti Pembayaran
+                    </a>
+
                     <a class="side-button" id ="menu-aspirasi" <?php if ($pages == 'aspirasi.php') echo 'active'; ?> href="formulir_kepuasan.php">
                         <img class="side-img" src="images/aspirasi.png" alt="aspirasi">
                         Aspirasi

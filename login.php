@@ -1,18 +1,17 @@
 <?php
+session_start();
 include "koneksi.php";
 
-// Mengambil data dari form login
-$error = ''; // Inisialisasi variabel error
-$success = false; // Inisialisasi variabel sukses
-$userRole = ''; // Menyimpan peran pengguna (warga atau pengurus)
-$nama_pengguna = ''; // Variabel untuk menyimpan nama pengguna (pengurus atau warga)
+$error = '';
+$success = false;
+$userRole = '';
+$nama_pengguna = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Query untuk mencari user di database dengan prepared statement
-    // Pertama, periksa tabel pengurus
+    // Login untuk pengurus
     $queryPengurus = "SELECT * FROM pengurus WHERE email_pengurus=? AND password_pengurus=?";
     $stmtPengurus = $conn->prepare($queryPengurus);
     $stmtPengurus->bind_param("ss", $email, $password);
@@ -20,13 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultPengurus = $stmtPengurus->get_result();
 
     if ($resultPengurus->num_rows == 1) {
-        // Login berhasil sebagai pengurus
+        $data = $resultPengurus->fetch_assoc();
+        $_SESSION['role'] = 'pengurus'; // Simpan role
+        $_SESSION['nama'] = $data['nama_pengurus']; // Nama pengguna
+        $_SESSION['id'] = $data['id_pengurus']; // ID pengurus
         $success = true;
         $userRole = 'pengurus';
-        $data = $resultPengurus->fetch_assoc();
-        $nama_pengguna = $data['nama_pengurus']; // Simpan nama pengurus
     } else {
-        // Jika gagal, coba untuk login sebagai warga
+        // Login untuk warga
         $queryWarga = "SELECT * FROM warga WHERE email=? AND password=?";
         $stmtWarga = $conn->prepare($queryWarga);
         $stmtWarga->bind_param("ss", $email, $password);
@@ -34,26 +34,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultWarga = $stmtWarga->get_result();
 
         if ($resultWarga->num_rows == 1) {
-            // Login berhasil sebagai warga
+            $data = $resultWarga->fetch_assoc();
+            $_SESSION['role'] = 'warga';
+            $_SESSION['nama'] = $data['nama'];
+            $_SESSION['nim'] = $data['nim']; // Simpan NIM
             $success = true;
             $userRole = 'warga';
-            $data = $resultWarga->fetch_assoc();
-            $nama_pengguna = $data['nama']; // Simpan nama warga
         } else {
-            // Login gagal
             $error = 'Periksa kembali email dan password.';
         }
-        // Menutup statement warga jika sudah dibuat
         $stmtWarga->close();
     }
 
-    // Menutup statement pengurus setelah selesai
     $stmtPengurus->close();
 }
 
-// Menutup koneksi database
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
