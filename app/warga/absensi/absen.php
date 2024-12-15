@@ -17,8 +17,8 @@ if ($connection->connect_error) {
 
 // Cek apakah pengguna sudah login
 if (!isset($_SESSION['nim'])) {
-    //header("Location: login.php"); // Arahkan ke halaman login jika belum login
-    exit();
+    // header("Location: login.php"); // Arahkan ke halaman login jika belum login
+    // exit();
 }
 
 // Mengambil NIM pengguna dari sesi
@@ -107,6 +107,7 @@ $result = $stmt->get_result();
     </style>
 </head>
 <body>
+    
     <div class="container">
         <h2>Rekapan Absensi Harian</h2>
         <table>

@@ -13,7 +13,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 // Fetch data for visualization
-$sqlGenderCount = "SELECT jenis_kelamin, COUNT(*) as count FROM warga GROUP BY jenis_kelamin";
+$sqlGenderCount = "SELECT jenis_kelamin, COUNT(*) as count FROM warga w join pendaftaran p on w.nim=p.nim GROUP BY jenis_kelamin";
 $resultGenderCount = $conn->query($sqlGenderCount);
 
 $femaleCount = 0;
