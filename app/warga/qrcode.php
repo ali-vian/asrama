@@ -1,4 +1,13 @@
-<?php include 'headersidebar.php'; ?>
+<?php 
+
+session_start();
+
+
+if ($_SESSION['role'] != 'warga') {
+    header('Location: ../../login.php');
+}
+
+include 'headersidebar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

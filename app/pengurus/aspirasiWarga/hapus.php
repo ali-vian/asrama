@@ -11,4 +11,5 @@ if ($hasil){
 }else{
     echo "data gagal dihapus";
 }
+
 ?>

@@ -1,6 +1,13 @@
 <?php
 include 'db.php';
 
+session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
+    echo "<script>alert('Akses ditolak! Anda harus login sebagai warga.'); window.location.href = '../../login.php';</script>";
+    exit;
+}
+
 // Ambil kegiatan dari database
 $query = "SELECT id_kegiatan, nama_kegiatan FROM kegiatan";
 $stmt = $pdo->query($query);

@@ -1,4 +1,10 @@
-<?php include '../templates/new_header.php';?>
+<?php 
+session_start();
+if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
+    header("Location: ../../../index.php");
+    exit;
+}
+include '../templates/new_header.php';?>
 <?php include 'menu.php';
 include 'config.php';?>
 <div class="content-wrapper">

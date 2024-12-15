@@ -1,4 +1,11 @@
 <?php 
+
+session_start();
+if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
+    header("Location: ../../../index.php");
+    exit;
+}
+
     $pageTitle = "Rekap Absensi Kegiatan Hari Besar";
     
     require_once '../templates/new_header.php';

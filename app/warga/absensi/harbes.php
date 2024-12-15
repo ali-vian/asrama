@@ -1,15 +1,15 @@
 <?php 
-    // session_start();
-    // // Validasi sesi login dan role warga
-    // if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
-    //     header('Location: ../landing_page.php'); // Redirect ke halaman login jika tidak valid
-    //     exit();
-    // }
+    session_start();
+    // Validasi sesi login dan role warga
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
+        header('Location: ../../../login.php'); // Redirect ke halaman login jika tidak valid
+        exit();
+    }
 
     // require_once '../templates/header.php';
 
-    // // Ambil NIM pengguna dari sesi login
-    // $user_nim = $_SESSION['nim'];
+    // Ambil NIM pengguna dari sesi login
+    $user_nim = $_SESSION['nim'];
     
 
     // Ambil NIM pengguna dari sesi login

@@ -17,14 +17,12 @@ if ($connection->connect_error) {
 
 // Cek apakah pengguna sudah login
 if (!isset($_SESSION['nim'])) {
-    // header("Location: login.php"); // Arahkan ke halaman login jika belum login
-    // exit();
+    header("Location: ../../../login.php"); // Arahkan ke halaman login jika belum login
+    exit();
 }
 
 // Mengambil NIM pengguna dari sesi
-// $nim = $_SESSION['nim'];
-$nim = '250511010004';
-$tanggal = date("Y-m-d");
+$nim = $_SESSION['nim'];
 
 // Query untuk mengambil data absensi harian
 $query = "

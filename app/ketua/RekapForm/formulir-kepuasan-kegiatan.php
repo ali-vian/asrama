@@ -1,6 +1,13 @@
 <?php
 require_once 'config.php';
 
+
+session_start();
+if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
+    header("Location: ../../../index.php");
+    exit;
+}
+
 // Handle Delete Action
 if (isset($_POST['delete'])) {
     $id = $_POST['id'];

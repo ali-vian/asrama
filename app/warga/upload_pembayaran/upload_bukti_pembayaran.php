@@ -4,13 +4,14 @@ include('koneksi.php');
 
 // Cek jika pengguna adalah warga
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
-    echo "<script>alert('Akses ditolak! Anda harus login sebagai warga.'); window.location.href = 'login.php';</script>";
+    echo "<script>alert('Akses ditolak! Anda harus login sebagai warga.'); window.location.href = '../../../login.php';</script>";
     exit;
 }
 
-$nim = $_SESSION['nim']; // Ambil NIM dari sesi
+// $nim = $_SESSION['nim']; // Ambil NIM dari sesi
 $error = '';
 $success = false;
+$nim = "250411100055";
 
 // Ambil data status pembayaran terbaru dari database
 $sql_status = "SELECT tanggal_upload, jumlah_bayar, metode_bayar, status_verifikasi, gambar 
@@ -96,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <!-- Status Pembayaran -->
-        //<h3 class="mt-5">Status Pembayaran</h3>
+        <h3 class="mt-5">Status Pembayaran</h3>
         <?php if ($pembayaran): ?>
             <table class="table mt-3">
                 <tr>

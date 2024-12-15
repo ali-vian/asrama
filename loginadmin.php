@@ -1,6 +1,18 @@
 <?php
 include "koneksi.php";
 
+session_start(); // Memulai session
+
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] === 'pengurus') {
+        header('Location: app/pengurus/');
+    } else if ($_SESSION['role'] === 'warga') {
+        header('Location: app/warga/');
+    } else {
+        header('Location: app/ketua/');
+    }
+}
+
 // Mengambil data dari form login
 $error = ''; // Inisialisasi variabel error
 $success = false; // Inisialisasi variabel sukses
@@ -10,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Query untuk mencari user di database dengan prepared statement
-    $queryPengurus = "SELECT * FROM pengurus WHERE email_pengurus=? AND password_pengurus=?"; // Assuming passwords are stored in plain text
+    $queryPengurus = "SELECT * FROM pengurus WHERE email_pengurus=? AND password_pengurus=MD5(?) AND divisi_pengurus='Pengurus Harian'"; // Assuming passwords are stored in plain text
     $stmtPengurus = $conn->prepare($queryPengurus);
     $stmtPengurus->bind_param("ss", $email, $password);
     $stmtPengurus->execute();
@@ -20,8 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Login berhasil
         $success = true; // Set variabel sukses
         $data = $resultPengurus->fetch_assoc(); // Ambil data pengurus
-        $nama_pengurus = $data['nama_pengurus']; // Simpan nama pengurus
+        $_SESSION['nama'] = $data['nama_pengurus']; // Simpan nama pengurus
+        $_SESSION['email'] = $data['email_pengurus']; // Simpan email pengurus ke session
+        $_SESSION['nim'] = $data['nim_pengurus']; // Simpan nim pengurus ke session
+        $_SESSION['role'] = 'ketua'; // Simpan role pengurus ke session 
         // Mengarahkan ke ketua di JavaScript
+        header("Location: app/ketua/");
+
     } else {
         // Login gagal
         $error = 'Periksa kembali email dan password.';

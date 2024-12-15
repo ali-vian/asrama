@@ -7,12 +7,22 @@ $success = false;
 $userRole = '';
 $nama_pengguna = '';
 
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] === 'pengurus') {
+        header('Location: app/pengurus/dashboard.php');
+    } else if ($_SESSION['role'] === 'warga') {
+        header('Location: app/warga/dashboard.php');
+    }else{
+        header('Location: app/ketua/index.php');
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     // Login untuk pengurus
-    $queryPengurus = "SELECT * FROM pengurus WHERE email_pengurus=? AND password_pengurus=?";
+    $queryPengurus = "SELECT * FROM pengurus WHERE email_pengurus=? AND password_pengurus=MD5(?)";
     $stmtPengurus = $conn->prepare($queryPengurus);
     $stmtPengurus->bind_param("ss", $email, $password);
     $stmtPengurus->execute();
@@ -27,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $userRole = 'pengurus';
     } else {
         // Login untuk warga
-        $queryWarga = "SELECT * FROM warga WHERE email=? AND password=?";
+        $queryWarga = "SELECT * FROM warga WHERE email=? AND password=MD5(?)";
         $stmtWarga = $conn->prepare($queryWarga);
         $stmtWarga->bind_param("ss", $email, $password);
         $stmtWarga->execute();

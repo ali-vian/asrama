@@ -4,7 +4,7 @@ include('koneksi.php');
 
 // Cek jika pengguna adalah warga
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
-    echo "<script>alert('Akses ditolak! Anda harus login sebagai warga.'); window.location.href = 'login.php';</script>";
+    echo "<script>alert('Akses ditolak! Anda harus login sebagai warga.'); window.location.href = '../../../login.php';</script>";
     exit;
 }
 

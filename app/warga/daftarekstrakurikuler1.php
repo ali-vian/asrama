@@ -3,6 +3,11 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if (!isset($_SESSION['nim'])) {
+    header("Location: ../../login.php");
+    exit;
+}
+
 // Static data for the extracurricular activity
 $extrakurikuler = [
     'nama_extra' => 'Nama Ekstrakurikuler',
@@ -55,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_pendaftaran']))
 
         // Check if NIM exists in the 'warga' table
         $check_nim_query = "SELECT COUNT(*) FROM warga WHERE nim = ?";
-        if ($stmt_check_nim = $db->prepare($check_nim_query)) {
+        if ($stmt_check_nim = $conn->prepare($check_nim_query)) {
             $stmt_check_nim->bind_param("s", $nim_pendaftar);
             $stmt_check_nim->execute();
             $stmt_check_nim->bind_result($count);
@@ -67,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_pendaftaran']))
                 exit;
             }
         } else {
-            echo "Error preparing NIM check statement: " . htmlspecialchars($db->error);
+            echo "Error preparing NIM check statement: " . htmlspecialchars($conn->error);
             exit;
         }
 
@@ -75,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_pendaftaran']))
         $query_pendaftaran = "INSERT INTO pendaftaran (nim, nama_lengkap, prodi_pendaftar, foto_bukti_lolos_ptn, created_at_pendaftar) 
                               VALUES (?, ?, ?, ?, ?)";
         
-        if ($stmt_pendaftaran = $db->prepare($query_pendaftaran)) {
+        if ($stmt_pendaftaran = $conn->prepare($query_pendaftaran)) {
             // Bind parameters
             $stmt_pendaftaran->bind_param("sssss", $nim_pendaftar, $nama_pendaftar, $prodi_pendaftar, $target_file, $tanggal_pendaftaran);
 
@@ -84,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_pendaftaran']))
                 // Menampilkan alert berhasil dengan link WhatsApp
                 echo "<script>
                         alert('Pendaftaran berhasil! Klik OK untuk bergabung ke grup WhatsApp kami.');
-                        window.location.href = 'https://chat.whatsapp.com/yourgroupinvitecode'; // Ganti dengan link grup WhatsApp yang benar
+                        window.location.href = 'https://wa.me/6285326273098'; // Ganti dengan link grup WhatsApp yang benar
                       </script>";
                 exit;
             } else {
@@ -93,11 +98,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_pendaftaran']))
             // Close the statement
             $stmt_pendaftaran->close();
         } else {
-            echo "Error preparing registration statement: " . htmlspecialchars($db->error);
+            echo "Error preparing registration statement: " . htmlspecialchars($conn->error);
         }
         
         // Close database connection
-        $db->close();
+        $conn->close();
         
     } else {
         echo "Maaf, terjadi kesalahan saat mengupload file.";

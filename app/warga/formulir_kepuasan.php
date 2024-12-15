@@ -1,3 +1,15 @@
+<?php
+
+    session_start();    
+
+
+    if ($_SESSION['role'] != 'warga') {
+        header('Location: ../../index.php');
+        exit;
+    }
+?>s
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

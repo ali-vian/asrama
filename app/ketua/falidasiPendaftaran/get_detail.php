@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
+    header("Location: ../../../index.php");
+    exit;
+}
+
 $servername = "localhost";
 $username = "root";
 $password = "";
