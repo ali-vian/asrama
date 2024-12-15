@@ -8,7 +8,7 @@
                 Jejak Pendapat
             </a>
 
-            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "rekap_harian.php" || basename($_SERVER['PHP_SELF']) == "rekap_ekstra.php" || basename($_SERVER['PHP_SELF']) == "rekap_besar.php") echo "active"; ?>" href="rekap_harian.php">
+            <a class="side-button <?php if (basename($_SERVER['PHP_SELF']) == "rekap_harian.php" || basename($_SERVER['PHP_SELF']) == "rekap_ekstra.php" || basename($_SERVER['PHP_SELF']) == "rekap_besar.php") echo "active"; ?>" href="../pengurus/absensi_asrama/public/absensi_harian.php">
                 <img class="side-img" src="./asset/img/rekap.png" alt="rekap">
                 Rekap Absensi
             </a>
