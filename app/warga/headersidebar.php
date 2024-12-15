@@ -48,7 +48,7 @@
                         Warga Asrama
                     </a>
 
-                    <a class="side-button <?php if ($pages == 'rekap_harian.php' || $pages == 'rekap_ekstra.php' || $pages == 'rekap_besar.php') echo 'active'; ?>" href="rekap_harian.php">
+                    <a class="side-button <?php if ($pages == 'rekap_harian.php' || $pages == 'rekap_ekstra.php' || $pages == 'rekap_besar.php') echo 'active'; ?>" href="absensi/absen.php">
                         <img class="side-img" src="images/rekap.png" alt="rekap">
                         Rekap Absensi
                     </a>
@@ -63,9 +63,9 @@
                         Jejak Pendapat
                     </a>
 
-                    <a class="side-button <?php if ($pages == 'aspirasi2.php') echo 'active'; ?>" href="aspirasi2.php">
-                        <img class="side-img" src="images/aspirasi2.png" alt="aspirasi2">
-                        Aspirasi 2
+                    <a class="side-button <?php if ($pages == 'qrcode.php') echo 'active'; ?>" href="qrcode.php">
+                        <img class="side-img" src="images/aspirasi2.png" alt="barcode">
+                        QRcode Absensi
                     </a>
                 </div>
             </div>

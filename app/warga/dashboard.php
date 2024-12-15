@@ -11,17 +11,21 @@ session_start();
 // Cek jika pengguna sudah login
 if (!isset($_SESSION['nim'])) {
     // Jika pengguna belum login, redirect ke halaman login
-    header("Location: login.php");
-    exit;
+    // header("Location: login.php");
+    // exit;
 }
 
 // Mengambil informasi pengguna dari session
-$nim = $_SESSION['nim'];
-$nama_warga = $_SESSION['nama'];
-$email_warga = $_SESSION['email'];
-$prodi = $_SESSION['prodi'];
-$kamar = $_SESSION['kamar'];
-$foto_warga = $_SESSION['foto_warga'];
+// $nim = $_SESSION['nim'];
+// $nama_warga = $_SESSION['nama'];
+// $email_warga = $_SESSION['email'];
+// $prodi = $_SESSION['prodi'];
+// $kamar = $_SESSION['kamar'];
+// $foto_warga = $_SESSION['foto_warga'];
+
+$nim = 	"250511010004";
+$nama_warga = "Dina Puspita";
+
 
 // Mengambil data absensi warga
 $sql_absensi = "SELECT * FROM absensi WHERE nim = '$nim'";

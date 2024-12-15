@@ -9,6 +9,7 @@ class ComposerStaticInit505345ae35d477c67c6505ea16e998de
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
+            'Picqer\\Barcode\\' => 15,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
     );

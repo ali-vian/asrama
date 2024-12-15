@@ -231,8 +231,8 @@
                     <textarea class="form-control" id="pesan" name="pesan" placeholder="Masukkan Pesan" rows="4" required></textarea>
                     
                     <label for="kategori" class="form-label">Kategori <span class="text-red-500">*</span></label>
-                    <select class="form-select" id="kategori" name="kategori" required>
-                        <option selected disabled>Pilih Kategori</option>
+                    <select class="form-select" id="kategori" name="kategori">
+                        <option disabled>Pilih Kategori</option>
                         <option value="Akademik">Akademik</option>
                         <option value="Fasilitas">Fasilitas</option>
                         <option value="Pelayanan">Pelayanan</option>
@@ -288,7 +288,7 @@
         function submitForm() {
             const formData = new FormData(document.getElementById("kepuasanForm"));
 
-            fetch("submit.php", {
+            fetch("submit1.php", {
                     method: "POST",
                     body: formData
                 })
