@@ -1,146 +1,137 @@
-<?php
-session_start();
+<?php 
+//     $pageTitle = "Rekap Absensi Harian";
+//     session_start(); // Aktifkan sesi
 
-// Konfigurasi koneksi database
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$database = 'asrama';
+//     // Validasi sesi login dan role warga
+//     if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
+//         header('Location: ../../../login.php'); // Redirect ke halaman login jika tidak valid
+//         exit();
+//     }
 
-// Membuat koneksi
-$connection = new mysqli($host, $user, $password, $database);
 
-// Memeriksa koneksi
-if ($connection->connect_error) {
-    die("Koneksi gagal: " . $connection->connect_error);
-}
 
-// Cek apakah pengguna sudah login
-if (!isset($_SESSION['nim'])) {
-    header("Location: ../../../login.php"); // Arahkan ke halaman login jika belum login
-    exit();
-}
+// // Ambil NIM pengguna dari sesi login
+//     $nim = $_SESSION['nim']; // Ambil NIM dari sesi yang dibuat saat login
+    require_once 'templates.php';
+    $nim = '250511010004';
+    $sql = "SELECT nama FROM warga WHERE nim = '$nim'";
+    $result = $conn->query($sql);
 
-// Mengambil NIM pengguna dari sesi
-$nim = $_SESSION['nim'];
+    if ($result->num_rows > 0) {
+        // Ambil nama
+        $row = $result->fetch_assoc();
+        $nama = $row['nama'];
+    } else {
+        $nama = 'Pengguna Tidak Ditemukan'; // Default jika tidak ada data
+    }
+    $selectedDate = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 
-// Query untuk mengambil data absensi harian
-$query = "
+    // Query database untuk data absensi
+    $stmt = $conn->prepare("
     SELECT 
-        a.nim,
-        k.nama_kegiatan AS nama_kegiatan,
-        a.status_kehadiran AS status_kehadiran,
-        a.waktu_absen AS waktu_absen,
-        a.jenis_absen AS jenis_absen,
-        a.keterangan AS keterangan
+        a.status_kehadiran, 
+        a.waktu_absen, 
+        a.jenis_absen, 
+        a.keterangan
     FROM 
         absensi a
-    LEFT JOIN 
-        kegiatan k ON a.id_kegiatan = k.id_kegiatan
     WHERE 
         a.nim = ? AND DATE(a.waktu_absen) = ?
-";
+    ");
 
-$stmt = $connection->prepare($query);
-$stmt->bind_param("ss", $nim, $tanggal);
-$stmt->execute();
-$result = $stmt->get_result();
+    if (!$stmt) {
+        die("Kesalahan prepare statement: " . $conn->error);
+    }
+    $stmt->bind_param("ss", $nim, $selectedDate);
+    $stmt->execute();
+    $result = $stmt->get_result();
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekapan Absensi Harian</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .container {
-            max-width: 800px;
-            background: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        h2 {
-            text-align: center;
-            background-color: #007bff;
-            color: white;
-            margin: 0;
-            padding: 15px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        table th {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-        }
-        table tr:hover {
-            background-color: #f1f1f1;
-        }
-        .no-data {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-    
-    <div class="container">
-        <h2>Rekapan Absensi Harian</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nama Kegiatan</th>
-                    <th>Status Kehadiran</th>
-                    <th>Waktu Absen</th>
-                    <th>Jenis Absen</th>
-                    <th>Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo $row['nama_kegiatan'] ?: '-'; ?></td>
-                            <td><?php echo $row['status_kehadiran']; ?></td>
-                            <td><?php echo date("d-m-Y H:i:s", strtotime($row['waktu_absen'])); ?></td>
-                            <td><?php echo $row['jenis_absen']; ?></td>
-                            <td><?php echo $row['keterangan']; ?></td>
-                        </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="5" class="no-data">Tidak ada data absensi untuk hari ini.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+<div class="content">
+    <div class="content-top">
+        <span class="h1">Rekap Absensi Harian <?php echo $nama; ?></span>
+        
+        <div class="select">
+            <div class="select-button">
+                <button class="select-btn text-button" onclick="dropdownAbsensi()">Absensi Harian</button>
+                <button class="select-btn v-button" onclick="dropdownAbsensi()">v</button>
+            </div>
+            <div class="select-content" id="absensiContent" style="display: none;">
+                <div class="select-option border-bottom" data-value="absen.php" onclick="selectAbsensi(this)">Absensi Harian</div>
+                <div class="select-option border-bottom" data-value="ekstrakulikuler.php" onclick="selectAbsensi(this)">Absensi Ekstrakurikuler</div>
+                <div class="select-option" data-value="harbes.php" onclick="selectAbsensi(this)">Absensi Hari Besar</div> 
+                <div class="select-option" data-value="../dashboard.php" onclick="selectAbsensi(this)">Dashboard</div> 
+            </div>
+        </div>
     </div>
-</body>
-</html>
 
-<?php
-$stmt->close();
-$connection->close();
-?>
+    <div class="content-bottom">
+        <div class="periode">
+            <span class="h3">Tanggal</span>
+            <input type="date" id="filterDate" value="<?php echo $selectedDate; ?>" onchange="filterByDate(this.value)">
+        </div>
+
+        <div class="rekap">
+            <button class="cetak" onclick="exportHarian()">
+                <img src="../../../assets/img/cetak.png" alt="cetak">
+                Cetak
+            </button>
+
+            <table id="tableExcel">
+                <thead>
+                    <tr class="table-header">
+                        <td class="no">No</td>
+                        <td class="status">Status Kehadiran</td>
+                        <td class="waktu">Waktu Absen</td>
+                        <td class="jenis">Jenis Absen</td>
+                        <td class="keterangan">Keterangan</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $rowNumber = 1;
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr class='row-height'>";
+                            echo "<td>" . $rowNumber++ . "</td>";
+                            echo "<td>" . htmlspecialchars($row['status_kehadiran']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['waktu_absen']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['jenis_absen']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['keterangan']) . "</td>";
+                            echo "</tr>";
+                        }
+                        if ($result->num_rows === 0) {
+                            echo "<tr><td colspan='5'>Tidak ada data untuk tanggal yang dipilih.</td></tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fungsi untuk memfilter berdasarkan tanggal
+    function filterByDate(selectedDate) {
+        window.location.href = "?date=" + selectedDate;
+    }
+
+    // Fungsi untuk dropdown navigasi
+    function dropdownAbsensi() {
+        const dropdown = document.getElementById('absensiContent');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Fungsi untuk navigasi halaman berdasarkan pilihan
+    function selectAbsensi(element) {
+        const page = element.getAttribute('data-value');
+        window.location.href = page;
+    }
+
+    // Close dropdown if clicked outside
+    window.onclick = function(event) {
+        const dropdown = document.getElementById("absensiContent");
+        if (!event.target.matches('.select-btn') && !event.target.matches('.select-content') && !event.target.matches('.select-option')) {
+            dropdown.style.display = "none";
+        }
+    }
+</script>
