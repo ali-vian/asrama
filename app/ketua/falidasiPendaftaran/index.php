@@ -346,8 +346,6 @@ function loadData(status, element) {
     }
   });
 }
-
-
   </script>
 </body>
 </html>
