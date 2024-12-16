@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['nim
 
       
       
-      if ($sqlAccept->execute()) {
+      // if ($sqlAccept->execute()) {
           // Insert into warga table
           $sqlInsertWarga = $conn->prepare("INSERT INTO warga (nama,nim,no_hp, password,kamar,email,gedung,prodi,foto_warga,nim_pengurus) 
                                             SELECT nama_lengkap, nim,no_hp_pendaftar,password,?, email_pendaftar, ?, prodi_pendaftar,foto_pendaftar,?
@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['nim
           } else {
               echo "<script>alert('Gagal memasukkan data ke tabel warga.'); window.location.href = 'index.php';</script>";
           }
-      } else {
-          echo "<script>alert('Gagal memperbarui status pendaftaran.'); window.location.href = 'index.php';</script>";
-      }
+      // } else {
+          // echo "<script>alert('Gagal memperbarui status pendaftaran.'); window.location.href = 'index.php';</script>";
+      // }
 
   } elseif ($action === 'reject') {
       // Prepare and execute reject query
@@ -348,8 +348,6 @@ function loadData(status, element) {
     }
   });
 }
-
-
   </script>
 </body>
 </html>
