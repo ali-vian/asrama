@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'pengurus') {
+    header("Location: ../../../index.php");
+    exit;
+}
+
 $koneksi = mysqli_connect("localhost", "root", "", "asrama");
 
 // Mendapatkan id_formulir dari URL
@@ -18,6 +25,7 @@ if (mysqli_num_rows($result) > 0) {
     exit;
 }
 ?>
+
 
 
 <!DOCTYPE html>

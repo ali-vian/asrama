@@ -94,10 +94,11 @@ body {
     
 </body>
 </html>
+
 <body>
     <!-- Main Content Section -->
     <div class="main-content">
-        <img src="https://quickchart.io/qr?text=2200411100082/Muhammad Alivian Sidiq&size=500" alt="QR Code"
+        <img src="https://quickchart.io/qr?text=<?= $_SESSION['nim']?>&size=500" alt="QR Code"
         class="qr-code img-thumbnail img-responsive"  width="500px"/>
         <h5>Tunjukan QR Code ini untuk melakukan absen</h5>
         <p>Satu QR Code untuk semua absen</p>

@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'pengurus') {
+    header("Location: ../../../index.php");
+    exit;
+}
+
 $koneksi = mysqli_connect("localhost", "root", "", "asrama");
 
 $query = "SELECT * FROM formulir_kegiatan JOIN kegiatan ON formulir_kegiatan.id_kegiatan = kegiatan.id_kegiatan";

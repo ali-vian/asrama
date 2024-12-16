@@ -1,4 +1,11 @@
 <?php
+
+session_start();
+if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'pengurus') {
+    header("Location: ../../../index.php");
+    exit;
+}
+
 // Koneksi ke database
 include "./asset/connect.php";
 

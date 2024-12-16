@@ -9,7 +9,7 @@ $nama_pengguna = '';
 
 if (isset($_SESSION['role'])) {
     if ($_SESSION['role'] === 'pengurus') {
-        header('Location: app/pengurus/dashboard.php');
+        header('Location: app/pengurus/index.php');
     } else if ($_SESSION['role'] === 'warga') {
         header('Location: app/warga/dashboard.php');
     }else{
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = $resultPengurus->fetch_assoc();
         $_SESSION['role'] = 'pengurus'; // Simpan role
         $_SESSION['nama'] = $data['nama_pengurus']; // Nama pengguna
-        $_SESSION['id'] = $data['id_pengurus']; // ID pengurus
+        $_SESSION['nim'] = $data['nim_pengurus']; // ID pengurus
         $success = true;
         $userRole = 'pengurus';
     } else {
@@ -87,7 +87,7 @@ $conn->close();
                     showConfirmButton: false,
                     timer: 2000
                 }).then(() => {
-                    window.location.href = '<?php echo $userRole === "pengurus" ? "app/pengurus/dashboard.php" : "app/warga/dashboard.php"; ?>';
+                    window.location.href = '<?php echo $userRole === "pengurus" ? "app/pengurus/index.php" : "app/warga/dashboard.php"; ?>';
                 });
             <?php } ?>
 
