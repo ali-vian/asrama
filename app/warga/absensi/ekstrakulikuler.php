@@ -1,21 +1,37 @@
 <?php 
-    session_start();
-    // Validasi sesi login dan role warga
-    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
-        header('Location: ../../../login.php'); // Redirect ke halaman login jika tidak valid
-        exit();
-    }
+// session_start(); // Aktifkan sesi
 
-    // require_once '../templates/header.php';
+// // Validasi sesi login dan role warga
+// if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
+//     header('Location: ../../../login.php'); // Redirect ke halaman login jika tidak valid
+//     exit();
+// }
 
-    // Ambil NIM pengguna dari sesi login
-    $nim = $_SESSION['nim'];
-    require_once '../../ketua/templates/header.php';
+
+
+// // Ambil NIM pengguna dari sesi login
+// $nim = $_SESSION['nim']; // Ambil NIM dari sesi yang dibuat saat login
+
+require_once 'templates.php';
+    $nim = '250511010004'; // NIM pengguna
+
+// Query untuk mendapatkan nama berdasarkan nim
+$sql = "SELECT nama FROM warga WHERE nim = '$nim'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Ambil nama
+    $row = $result->fetch_assoc();
+    $nama = $row['nama'];
+} else {
+    $nama = 'Pengguna Tidak Ditemukan'; // Default jika tidak ada data
+}
+
 ?>
 
 <div class="content">
     <div class="content-top">
-        <span class="h1">Rekap Absensi Kegiatan Ekstrakurikuler Saya</span>
+        <span class="h1">Rekap Absensi Kegiatan Ekstrakurikuler <?php echo $nama; ?></span>
         
         <div class="select">
             <div class="select-button">
@@ -23,9 +39,10 @@
                 <button class="select-btn v-button" onclick="dropdownAbsensi()">v</button>
             </div>
             <div class="select-content" id="absensiContent">
-                <div class="select-option border-bottom" data-value="rekap_harian.php" onclick="selectAbsensi(this)">Absensi Harian</div>
+                <div class="select-option border-bottom" data-value="absen.php" onclick="selectAbsensi(this)">Absensi Harian</div>
                 <div class="select-option border-bottom" data-value="ekstrakulikuler.php" onclick="selectAbsensi(this)">Absensi Ekstrakurikuler</div>
-                <div class="select-option" data-value="harbes.php" onclick="selectAbsensi(this)">Absensi Hari Besar</div>
+                <div class="select-option" data-value="harbes.php" onclick="selectAbsensi(this)">Absensi Hari Besar</div> 
+                <div class="select-option" data-value="../dashboard.php" onclick="selectAbsensi(this)">Dashboard</div> 
             </div>
         </div>
     </div>
@@ -201,6 +218,4 @@
     let kegiatan = <?php echo json_encode($selectedName); ?>;
 </script>
 
-<?php 
-    require_once '../../ketua/templates/footer.php';
-?>
+
