@@ -1,27 +1,37 @@
 <?php 
-    session_start();
-    // Validasi sesi login dan role warga
-    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
-        header('Location: ../../../login.php'); // Redirect ke halaman login jika tidak valid
-        exit();
-    }
+// session_start(); // Aktifkan sesi
 
-    // require_once '../templates/header.php';
+// // Validasi sesi login dan role warga
+// if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'warga') {
+//     header('Location: ../../../login.php'); // Redirect ke halaman login jika tidak valid
+//     exit();
+// }
 
-    // Ambil NIM pengguna dari sesi login
-    $user_nim = $_SESSION['nim'];
-    
 
-    // Ambil NIM pengguna dari sesi login
-    require_once '../../ketua/templates/header.php';
+
+// // Ambil NIM pengguna dari sesi login
+// $nim = $_SESSION['nim']; // Ambil NIM dari sesi yang dibuat saat login
+require_once 'templates.php';
     $nim = '250511010004'; // NIM pengguna
-?>
 
+// Query untuk mendapatkan nama berdasarkan nim
+$sql = "SELECT nama FROM warga WHERE nim = '$nim'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Ambil nama
+    $row = $result->fetch_assoc();
+    $nama = $row['nama'];
+} else {
+    $nama = 'Pengguna Tidak Ditemukan'; // Default jika tidak ada data
+}
+
+?>
 
 <div class="content">
 
     <div class="content-top">
-        <span class="h1">REKAP ABSENSI KEGIATAN HARI BESAR SAYA</span>
+        <span class="h1">Rekap Absensi Kegiatan Hari Besar <?php echo $nama; ?> </span>
         
         <div class="select">
             <div class="select-button">
@@ -32,6 +42,7 @@
                 <div class="select-option border-bottom" data-value="absen.php" onclick="selectAbsensi(this)">Absensi Harian</div>
                 <div class="select-option border-bottom" data-value="ekstrakulikuler.php" onclick="selectAbsensi(this)">Absensi Ekstrakulikuler</div>
                 <div class="select-option" data-value="harbes.php" onclick="selectAbsensi(this)" selected>Absensi Hari Besar</div>
+                <div class="select-option" data-value="../dashboard.php" onclick="selectAbsensi(this)" selected>Dashboard</div>
             </div>
         </div>
     </div>
@@ -159,6 +170,3 @@
 
 
 
-<?php 
-    require_once '../../ketua/templates/footer.php';
-?>
