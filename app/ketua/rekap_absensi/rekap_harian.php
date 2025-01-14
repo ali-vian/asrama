@@ -10,9 +10,9 @@ if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
     $pageTitle = "Rekap Absensi Harian";
 
     require_once '../templates/new_header.php';
-?>
+?>7
 
-<div class="content">
+<div class="content" style="zoom: 0.8">
 
     <div class="content-top">
         <span class="h1">REKAP ABSENSI HARIAN</span>
@@ -87,7 +87,7 @@ if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
                 $absensi = mysqli_query($conn, 
                 "SELECT warga.nim, nama, prodi, waktu_absen, status_kehadiran FROM absensi
                         JOIN warga ON absensi.nim = warga.nim
-                        WHERE jenis_absen = 'harian' 
+                        WHERE jenis_absen LIKE 'harian%' 
                         AND MONTH(waktu_absen) = $selectedMonth"
                 );
 
@@ -119,7 +119,7 @@ if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
                         $students = mysqli_query($conn, 
                             "SELECT DISTINCT warga.nim, nama, prodi FROM warga
                                     JOIN absensi ON warga.nim = absensi.nim
-                                    WHERE jenis_absen = 'harian'");
+                                    WHERE jenis_absen LIKE 'harian%'");
 
                         $rowNumber = 1;
 
@@ -131,7 +131,7 @@ if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
                             $attendance = mysqli_query($conn, 
                             "SELECT DAY(waktu_absen) AS day, status_kehadiran FROM absensi 
                                     WHERE nim = '$nim' 
-                                    AND jenis_absen = 'harian' 
+                                    AND jenis_absen LIKE 'harian%' 
                                     AND MONTH(waktu_absen) = $selectedMonth"
                             );
                             

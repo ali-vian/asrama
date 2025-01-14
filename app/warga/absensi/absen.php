@@ -13,7 +13,7 @@
 // // Ambil NIM pengguna dari sesi login
 //     $nim = $_SESSION['nim']; // Ambil NIM dari sesi yang dibuat saat login
     require_once 'templates.php';
-    $nim = '250511010004';
+    $nim = '250411100055';
     $sql = "SELECT nama FROM warga WHERE nim = '$nim'";
     $result = $conn->query($sql);
 

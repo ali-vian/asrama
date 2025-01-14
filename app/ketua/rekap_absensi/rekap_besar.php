@@ -11,7 +11,7 @@ if (!isset($_SESSION['nim']) && !$_SESSION['role'] == 'ketua') {
     require_once '../templates/new_header.php';
 ?>
 
-<div class="content">
+<div class="content" style="zoom: 0.8">
 
     <div class="content-top">
         <span class="h1">REKAP ABSENSI KEGIATAN HARI BESAR</span>
