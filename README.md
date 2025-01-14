@@ -1,1 +1,3 @@
-# PPL
+# Website Management System di Asrama Mahasiswa Universitas Trunojoyo
+
+Website Management System pada Asrama Mahasiswa merupakan website yang mendigitalisasi absensi dan otomatis merekap hasil absensi yang telah dilakukan pada setiap kegiatan yang diadakan oleh Asrama Mahasiswa dengan menggunakan teknologi Qr-Code. Selain itu kami mengembangkan website ini yang dapat melakukan keputusan untuk dilakukannya evaluasi pada warga Asrama Mahasiswa setiap semester, dalam hal ini Sistem Pendukung Keputusan (SPK) yang dibuat harapannya dapat mempermudah pengurus dalam melakukan keputusan. Tujuan kami membangun website ini untuk membantu, mempermudah, dan memudahkan warga atau pengurus Asrama Mahasiswa dalam melakukan menejemen dalam setiap kegiatan.
