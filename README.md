@@ -13,13 +13,13 @@ git clone https://github.com/ali-vian/asrama.git
 6. Lalu browse ke localhost/asrama di browser
 
 ## Email & Password
-### Login Ketua Asrama
+##### Login Ketua Asrama
 - Email: habib@gmail.com
 - Password : habib123
-### Login Warga Asrama
+##### Login Warga Asrama
 - Email: ivan@gmail.com
 - Password : ivan123
-### Login Warga Asrama
+##### Login Warga Asrama
 - Email: muhammadalivian164@gmail.com
 - Password : password123
 
