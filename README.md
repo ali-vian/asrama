@@ -4,8 +4,27 @@ Website Management System pada Asrama Mahasiswa merupakan website yang mendigita
 
 ## Cara manjalankann
 1. Clone repository dengan perintah
-```git clone https://github.com/```
-2. Letakkan directory simple-dss-beasiswa-saw di dalam root directory web server
-3. Import database.sql
-4. Ubah Username dan Password pada file config.php
-5. Lalu browse ke localhost/simple-dss-beasiswa-saw di browser
+```
+git clone https://github.com/ali-vian/asrama.git
+```
+3. Letakkan directory asrama di dalam root directory web server
+4. Buat Database dengan nama asrama
+5. Kemudian import database asrama.sql
+6. Lalu browse ke localhost/asrama di browser
+
+## Email & Password
+### Login Ketua Asrama
+- Email: habib@gmail.com
+- Password : habib123
+### Login Warga Asrama
+- Email: ivan@gmail.com
+- Password : ivan123
+### Login Warga Asrama
+- Email: muhammadalivian164@gmail.com
+- Password : password123
+
+<br>
+
+![image](https://github.com/user-attachments/assets/81356d2d-3724-4260-865f-e102d7d41257)
+
+
